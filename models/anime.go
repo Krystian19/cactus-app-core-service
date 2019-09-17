@@ -1,5 +1,5 @@
 package models
 
-type User struct {
+type Anime struct {
 	Title string
 }
