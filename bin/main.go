@@ -2,14 +2,34 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"log"
+	"net"
+	"os"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-    http.HandleFunc("/", HelloServer)
-    http.ListenAndServe(":8080", nil)
-}
+	PORT := os.Getenv("PORT")
 
-func HelloServer(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+	if PORT == "" {
+		PORT = "8080"
+	}
+
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", PORT))
+
+	if err != nil {
+		panic(err)
+	}
+
+	srv := grpc.NewServer()
+	registerServices(srv)
+	reflection.Register(srv)
+
+	log.Printf(fmt.Sprintf("Protobuf Server running @ http://localhost:%s", PORT))
+
+	if e := srv.Serve(listener); e != nil {
+		panic(e)
+	}
 }
