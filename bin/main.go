@@ -14,7 +14,7 @@ func main() {
 	PORT := os.Getenv("PORT")
 
 	if PORT == "" {
-		PORT = "8080"
+		PORT = "9040"
 	}
 
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", PORT))
