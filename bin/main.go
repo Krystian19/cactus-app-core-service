@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -17,7 +16,7 @@ func main() {
 		PORT = "9040"
 	}
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", PORT))
+	listener, err := net.Listen("tcp", ":"+PORT)
 
 	if err != nil {
 		panic(err)
@@ -27,7 +26,7 @@ func main() {
 	registerServices(srv)
 	reflection.Register(srv)
 
-	log.Printf(fmt.Sprintf("Protobuf Server running @ http://localhost:%s", PORT))
+	log.Printf("Protobuf Server running @ http://localhost:%s", PORT)
 
 	if e := srv.Serve(listener); e != nil {
 		panic(e)
