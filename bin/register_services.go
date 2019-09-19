@@ -8,4 +8,5 @@ import (
 
 func registerServices(srv *grpc.Server) {
 	proto.RegisterAnimeServiceServer(srv, &services.Server{})
+	proto.RegisterReleaseServiceServer(srv, &services.Server{})
 }

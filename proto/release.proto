@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+message Release {
+	int64 id = 1;
+	string title = 2;
+}
+
+service ReleaseService {}
