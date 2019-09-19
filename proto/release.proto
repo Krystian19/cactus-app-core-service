@@ -5,19 +5,19 @@ package proto;
 message Release {
 	int64 id = 1;
 	string title = 2;
+	string created_at = 3;
+	string updated_at = 4;
 
 	// Relations
-	int64 anime_id = 3;
+	int64 anime_id = 5;
 }
 
 message ReleaseQuery {
-	int64 id = 1;
 	int64 anime_id = 2;
 }
 
 message ReleaseRequest {
 	int64 id = 1;
-	int64 anime_id = 2;
 }
 
 message ReleasesRequest {
