@@ -56,8 +56,10 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 	var result []models.Release
 	query := db
 
-	if request.Query.AnimeId != 0 {
-		query = query.Where("anime_id = ?", request.Query.AnimeId)
+	if request != nil && request.Query != nil {
+		if request.Query.AnimeId != 0 {
+			query = query.Where("anime_id = ?", request.Query.AnimeId)
+		}
 	}
 
 	if err := query.Find(&result).Error; err != nil {
@@ -68,8 +70,8 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 	finalRes := []*proto.Release{}
 
 	for i := range result {
-    finalRes[i] = result[i].Release
-  }
+		finalRes = append(finalRes, result[i].Release)
+	}
 
 	return &proto.ReleasesResponse{Releases: finalRes}, nil
 }
