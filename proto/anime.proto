@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package proto;
 
-import "proto/common.proto";
-
 message Anime {
 	int64 id = 1;
 	string title = 2;
@@ -11,10 +9,14 @@ message Anime {
 	string updated_at = 4;
 }
 
+message AnimeRequest {
+	int64 id = 1;
+}
+
 message AnimeResponse {
 	Anime anime = 1;
 }
 
 service AnimeService {
-	rpc Anime(Empty) returns (AnimeResponse);
+	rpc Anime(AnimeRequest) returns (AnimeResponse);
 }

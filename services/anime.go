@@ -12,7 +12,7 @@ import (
 )
 
 // Anime : Get a single Anime based on the provided params
-func (s *Server) Anime(ctx context.Context, request *proto.Empty) (*proto.AnimeResponse, error) {
+func (s *Server) Anime(ctx context.Context, request *proto.AnimeRequest) (*proto.AnimeResponse, error) {
 	db, err := db()
 
 	if err != nil {
@@ -22,8 +22,14 @@ func (s *Server) Anime(ctx context.Context, request *proto.Empty) (*proto.AnimeR
 
 	defer db.Close()
 
-	var anime models.Anime
-	if err := db.Where("id = ?", 3).First(&anime).Error; err != nil {
+	var result models.Anime
+	query := db
+
+	if request.Id != 0 {
+		query = query.Where("id = ?", request.Id)
+	}
+
+	if err := query.First(&result).Error; err != nil {
 
 		// If nothing was found
 		if gorm.IsRecordNotFoundError(err) {
@@ -34,5 +40,5 @@ func (s *Server) Anime(ctx context.Context, request *proto.Empty) (*proto.AnimeR
 		return nil, err
 	}
 
-	return &proto.AnimeResponse{Anime: anime.Anime}, nil
+	return &proto.AnimeResponse{Anime: result.Anime}, nil
 }
