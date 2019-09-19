@@ -7,7 +7,5 @@ import (
 )
 
 func registerServices(srv *grpc.Server) {
-	server := services.NewServer()
-
-	proto.RegisterAnimeServiceServer(srv, server)
+	proto.RegisterAnimeServiceServer(srv, &services.Server{})
 }

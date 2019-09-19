@@ -1,8 +1,4 @@
 package services
 
-type server struct{}
-
-// NewServer : Returns a pointer to a new Server
-func NewServer() *server {
-	return &server{}
-}
+// Server : Contains all of the services methods
+type Server struct{}
