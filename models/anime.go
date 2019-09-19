@@ -1,5 +1,15 @@
 package models
 
+import (
+	"github.com/Krystian19/cactus-core/proto"
+)
+
+// Anime : Anime model
 type Anime struct {
-	Title string
+	*proto.Anime
+}
+
+// TableName : Sets the model's tablename
+func (Anime) TableName() string {
+	return "Animes"
 }
