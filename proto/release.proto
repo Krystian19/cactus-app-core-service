@@ -5,6 +5,34 @@ package proto;
 message Release {
 	int64 id = 1;
 	string title = 2;
+
+	// Relations
+	int64 anime_id = 3;
 }
 
-service ReleaseService {}
+message ReleaseQuery {
+	int64 id = 1;
+	int64 anime_id = 2;
+}
+
+message ReleaseRequest {
+	int64 id = 1;
+	int64 anime_id = 2;
+}
+
+message ReleasesRequest {
+	ReleaseQuery query = 1;
+}
+
+message ReleaseResponse { 
+	Release release = 1; 
+}
+
+message ReleasesResponse { 
+	repeated Release releases = 1; 
+}
+
+service ReleaseService {
+	rpc Release(ReleaseRequest) returns (ReleaseResponse);
+	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
+}
