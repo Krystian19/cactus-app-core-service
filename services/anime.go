@@ -31,6 +31,7 @@ func (s *Server) Anime(ctx context.Context, request *proto.Empty) (*proto.AnimeR
 		}
 
 		fmt.Println(err)
+		return nil, err
 	}
 
 	return &proto.AnimeResponse{Anime: anime.Anime}, nil
