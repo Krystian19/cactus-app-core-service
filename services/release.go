@@ -71,9 +71,17 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		}
 	}
 
-	if err := query.Find(&result).Count(&resultCount).Error; err != nil {
+	if err := query.Find(&result).Error; err != nil {
 		fmt.Println(err)
 		return nil, err
+	}
+
+	// Remove pagination constraints before counting
+	query = query.Limit(nil)
+	query = query.Offset(nil)
+
+	if err := query.Model(&models.Release{}).Count(&resultCount).Error; err != nil {
+		resultCount = 0
 	}
 
 	finalRes := []*proto.Release{}
