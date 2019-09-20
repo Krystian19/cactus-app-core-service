@@ -13,7 +13,11 @@ message Release {
 }
 
 message ReleaseQuery {
-	int64 anime_id = 2;
+	int64 anime_id = 3;
+
+	// Pagination
+	int64 offset = 4;
+	int64 limit = 5;
 }
 
 message ReleaseRequest {
@@ -29,7 +33,8 @@ message ReleaseResponse {
 }
 
 message ReleasesResponse { 
-	repeated Release releases = 1; 
+	repeated Release releases = 1;
+	uint64 count = 2;
 }
 
 service ReleaseService {

@@ -42,7 +42,7 @@ func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*p
 	return &proto.ReleaseResponse{Release: result.Release}, nil
 }
 
-// Releases : Get a single Releases based on the provided params
+// Releases : Get a list of Releases based on the provided params
 func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
 	db, err := db()
 
@@ -54,15 +54,24 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 	defer db.Close()
 
 	var result []models.Release
+	var resultCount uint
 	query := db
 
 	if request != nil && request.Query != nil {
 		if request.Query.AnimeId != 0 {
 			query = query.Where("anime_id = ?", request.Query.AnimeId)
 		}
+
+		if request.Query.Limit != 0 {
+			query = query.Limit(request.Query.Limit)
+		}
+
+		if request.Query.Offset != 0 {
+			query = query.Offset(request.Query.Offset)
+		}
 	}
 
-	if err := query.Find(&result).Error; err != nil {
+	if err := query.Find(&result).Count(&resultCount).Error; err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
@@ -73,5 +82,5 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		finalRes = append(finalRes, result[i].Release)
 	}
 
-	return &proto.ReleasesResponse{Releases: finalRes}, nil
+	return &proto.ReleasesResponse{Releases: finalRes, Count: uint64(resultCount)}, nil
 }
