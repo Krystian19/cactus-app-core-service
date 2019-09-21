@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package proto;
+
+message Episode {
+	int64 id = 1;
+	string thumbnail = 2;
+	string episodeOrder = 3;
+    string episode_code = 4;
+	string created_at = 5;
+	string updated_at = 6;
+
+	// Relations
+	int64 release_id = 7;
+}
+
+message EpisodeQuery {
+	int64 release_id = 3;
+
+	// Pagination
+	int64 offset = 4;
+	int64 limit = 5;
+}
+
+message EpisodeRequest {
+	int64 id = 1;
+}
+
+message EpisodesRequest {
+	EpisodeQuery query = 1;
+}
+
+message EpisodeResponse { 
+	Episode episode = 1; 
+}
+
+message EpisodesResponse { 
+	repeated Episode episodes = 1;
+	uint64 count = 2;
+}
+
+service EpisodeService {
+	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
+	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
+}
