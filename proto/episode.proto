@@ -5,7 +5,7 @@ package proto;
 message Episode {
 	int64 id = 1;
 	string thumbnail = 2;
-	// string episode_order = 3;
+	string episode_order = 3;
     string episode_code = 4;
 	string created_at = 5;
 	string updated_at = 6;
