@@ -28,10 +28,6 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 		query = query.Where("id = ?", request.Id)
 	}
 
-	if request.ReleaseId != 0 {
-		query = query.Where("release_id = ?", request.ReleaseId)
-	}
-
 	if err := query.First(&result).Error; err != nil {
 
 		// If nothing was found
