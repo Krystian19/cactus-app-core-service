@@ -51,16 +51,68 @@ func (m *Empty) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Empty proto.InternalMessageInfo
 
+// OrderBy field name
+type OrderBy struct {
+	Field                string   `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	Descending           bool     `protobuf:"varint,2,opt,name=descending,proto3" json:"descending,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *OrderBy) Reset()         { *m = OrderBy{} }
+func (m *OrderBy) String() string { return proto.CompactTextString(m) }
+func (*OrderBy) ProtoMessage()    {}
+func (*OrderBy) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1747d3070a2311a0, []int{1}
+}
+
+func (m *OrderBy) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderBy.Unmarshal(m, b)
+}
+func (m *OrderBy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderBy.Marshal(b, m, deterministic)
+}
+func (m *OrderBy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderBy.Merge(m, src)
+}
+func (m *OrderBy) XXX_Size() int {
+	return xxx_messageInfo_OrderBy.Size(m)
+}
+func (m *OrderBy) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderBy.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderBy proto.InternalMessageInfo
+
+func (m *OrderBy) GetField() string {
+	if m != nil {
+		return m.Field
+	}
+	return ""
+}
+
+func (m *OrderBy) GetDescending() bool {
+	if m != nil {
+		return m.Descending
+	}
+	return false
+}
+
 func init() {
 	proto.RegisterType((*Empty)(nil), "proto.Empty")
+	proto.RegisterType((*OrderBy)(nil), "proto.OrderBy")
 }
 
 func init() { proto.RegisterFile("proto/common.proto", fileDescriptor_1747d3070a2311a0) }
 
 var fileDescriptor_1747d3070a2311a0 = []byte{
-	// 58 bytes of a gzipped FileDescriptorProto
+	// 110 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2a, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0x4f, 0xce, 0xcf, 0xcd, 0xcd, 0xcf, 0xd3, 0x03, 0x73, 0x84, 0x58, 0xc1, 0x94, 0x12,
-	0x3b, 0x17, 0xab, 0x6b, 0x6e, 0x41, 0x49, 0x65, 0x12, 0x1b, 0x98, 0x6f, 0x0c, 0x08, 0x00, 0x00,
-	0xff, 0xff, 0x3e, 0x9a, 0x35, 0x08, 0x2c, 0x00, 0x00, 0x00,
+	0x3b, 0x17, 0xab, 0x6b, 0x6e, 0x41, 0x49, 0xa5, 0x92, 0x3d, 0x17, 0xbb, 0x7f, 0x51, 0x4a, 0x6a,
+	0x91, 0x53, 0xa5, 0x90, 0x08, 0x17, 0x6b, 0x5a, 0x66, 0x6a, 0x4e, 0x8a, 0x04, 0xa3, 0x02, 0xa3,
+	0x06, 0x67, 0x10, 0x84, 0x23, 0x24, 0xc7, 0xc5, 0x95, 0x92, 0x5a, 0x9c, 0x9c, 0x9a, 0x97, 0x92,
+	0x99, 0x97, 0x2e, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x11, 0x84, 0x24, 0x92, 0xc4, 0x06, 0x36, 0xd0,
+	0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0x3b, 0xb3, 0xd0, 0x7f, 0x6d, 0x00, 0x00, 0x00,
 }

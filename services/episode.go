@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
@@ -71,6 +72,19 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 		}
 	}
 
+	if request != nil && request.OrderBy != nil {
+		if len(strings.TrimSpace(request.OrderBy.Field)) != 0 {
+
+			sorting := ""
+			if request.OrderBy.Descending {
+				sorting = DESC
+			}
+
+			// Example : SORT BY - "fieldname ASC"
+			query = query.Order(fmt.Sprintf("%s %s", request.OrderBy.Field, sorting))
+		}
+	}
+
 	if err := query.Find(&result).Error; err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -91,4 +105,33 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 	}
 
 	return &proto.EpisodesResponse{Episodes: finalRes, Count: uint64(resultCount)}, nil
+}
+
+// HottestEpisodes : Get a list of HottestEpisodes based on the provided params
+func (s *Server) HottestEpisodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
+	// TODO : Order Hottest Episodes by the amount of times a single episode has been seen
+	return s.Episodes(
+		ctx,
+		&proto.EpisodesRequest{
+			OrderBy: &proto.OrderBy{
+				Field:      "created_at",
+				Descending: false,
+			},
+			Query: request.Query,
+		},
+	)
+}
+
+// NewestEpisodes : Get a list of NewestEpisodes based on the provided params
+func (s *Server) NewestEpisodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
+	return s.Episodes(
+		ctx,
+		&proto.EpisodesRequest{
+			OrderBy: &proto.OrderBy{
+				Field:      "created_at",
+				Descending: true,
+			},
+			Query: request.Query,
+		},
+	)
 }

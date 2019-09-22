@@ -3,3 +3,9 @@ syntax = "proto3";
 package proto;
 
 message Empty {}
+
+// OrderBy field name
+message OrderBy {
+    string field = 1;
+    bool descending = 2;
+}

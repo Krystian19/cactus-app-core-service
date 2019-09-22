@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package proto;
 
+import "proto/common.proto";
+
 message Episode {
 	int64 id = 1;
 	string thumbnail = 2;
@@ -18,8 +20,8 @@ message EpisodeQuery {
 	int64 release_id = 3;
 
 	// Pagination
-	int64 offset = 4;
-	int64 limit = 5;
+	int64 offset = 10;
+	int64 limit = 11;
 }
 
 message EpisodeRequest {
@@ -28,6 +30,7 @@ message EpisodeRequest {
 
 message EpisodesRequest {
 	EpisodeQuery query = 1;
+	OrderBy order_by = 2;
 }
 
 message EpisodeResponse { 
@@ -42,4 +45,6 @@ message EpisodesResponse {
 service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
+	rpc HottestEpisodes(EpisodesRequest) returns (EpisodesResponse);
+	rpc NewestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 }
