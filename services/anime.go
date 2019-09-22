@@ -14,13 +14,13 @@ import (
 // Anime : Get a single Anime based on the provided params
 func (s *Server) Anime(ctx context.Context, request *proto.AnimeRequest) (*proto.AnimeResponse, error) {
 	db, err := db()
-	defer db.Close()
-
+	
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
+	defer db.Close()
 
 	var result models.Anime
 	query := db

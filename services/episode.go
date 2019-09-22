@@ -14,13 +14,13 @@ import (
 // Episode : Get a single Episode based on the provided params
 func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*proto.EpisodeResponse, error) {
 	db, err := db()
-	defer db.Close()
 
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
+	defer db.Close()
 
 	var result models.Episode
 	query := db

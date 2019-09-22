@@ -13,13 +13,13 @@ import (
 // Genre : Get a single Genre based on the provided params
 func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto.GenreResponse, error) {
 	db, err := db()
-	defer db.Close()
 
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
+	defer db.Close()
 
 	var result models.Genre
 	query := db
