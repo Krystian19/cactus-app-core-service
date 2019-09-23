@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package proto;
 
+import "proto/common.proto";
+
 message Release {
 	int64 id = 1;
 	string title = 2;
@@ -43,4 +45,5 @@ message ReleasesResponse {
 service ReleaseService {
 	rpc Release(ReleaseRequest) returns (ReleaseResponse);
 	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
+	rpc RandomRelease(Empty) returns (ReleaseResponse);
 }

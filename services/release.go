@@ -77,3 +77,24 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 
 	return &proto.ReleasesResponse{Releases: finalRes, Count: uint64(resultCount)}, nil
 }
+
+// RandomRelease : Get a single Random Release
+func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
+	db := GetDB()
+
+	var result models.Release
+	query := db
+
+	if err := query.Order(gorm.Expr("rand()")).First(&result).Error; err != nil {
+
+		// If nothing was found
+		if gorm.IsRecordNotFoundError(err) {
+			return &proto.ReleaseResponse{Release: nil}, nil
+		}
+
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return &proto.ReleaseResponse{Release: result.Release}, nil
+}
