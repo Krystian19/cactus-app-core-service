@@ -7,6 +7,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"github.com/Krystian19/cactus-core/services"
 )
 
 func main() {
@@ -18,6 +19,9 @@ func main() {
 
 	// Check for the important env vars to be present
 	EnvVarsCheck()
+
+	// Set database connection (panics if no connection is stablished)
+	services.InitDB()
 
 	listener, err := net.Listen("tcp", ":"+PORT)
 

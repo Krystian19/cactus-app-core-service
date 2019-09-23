@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
@@ -12,14 +11,7 @@ import (
 
 // Genre : Get a single Genre based on the provided params
 func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto.GenreResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result models.Genre
 	query := db
@@ -44,14 +36,7 @@ func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto
 
 // Genres : Get a list of Genres based on the provided params
 func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*proto.GenresResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result []models.Genre
 	var resultCount uint

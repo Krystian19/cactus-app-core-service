@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/Krystian19/cactus-core/models"
@@ -13,14 +12,7 @@ import (
 
 // Episode : Get a single Episode based on the provided params
 func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*proto.EpisodeResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result models.Episode
 	query := db
@@ -45,14 +37,7 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 
 // Episodes : Get a list of Episodes based on the provided params
 func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result []models.Episode
 	var resultCount uint

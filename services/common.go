@@ -20,7 +20,21 @@ const (
 	ASC = "asc"
 )
 
-// db : Returns a connection to the database
-func db() (*gorm.DB, error) {
-	return gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
+// DB : Global db connection object
+var DB *gorm.DB
+
+// InitDB : Setups the global db connection object (panics if no connection is stablished)
+func InitDB() {
+	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
+
+	if err != nil {
+		panic(err)
+	}
+
+	DB = db
+}
+
+// GetDB : Get the current global connection object
+func GetDB() *gorm.DB {
+	return DB
 }

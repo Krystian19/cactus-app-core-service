@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
@@ -12,14 +11,7 @@ import (
 
 // Release : Get a single Release based on the provided params
 func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*proto.ReleaseResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result models.Release
 	query := db
@@ -44,14 +36,7 @@ func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*p
 
 // Releases : Get a list of Releases based on the provided params
 func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
-	db, err := db()
-
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	defer db.Close()
+	db := GetDB()
 
 	var result []models.Release
 	var resultCount uint
