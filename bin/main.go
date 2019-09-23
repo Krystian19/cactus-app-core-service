@@ -5,19 +5,21 @@ import (
 	"net"
 	"os"
 
+	"github.com/Krystian19/cactus-core/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"github.com/Krystian19/cactus-core/services"
 )
+
+const defaultPort = "9040"
 
 func main() {
 	PORT := os.Getenv("PORT")
 
 	if PORT == "" {
-		PORT = "9040"
+		PORT = defaultPort
 	}
 
-	// Check for the important env vars to be present
+	// Check for the important env vars to be presentb (may panic if an important value is not set)
 	EnvVarsCheck()
 
 	// Set database connection (panics if no connection is stablished)
