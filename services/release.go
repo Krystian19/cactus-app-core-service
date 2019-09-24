@@ -78,6 +78,26 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 	return &proto.ReleasesResponse{Releases: finalRes, Count: uint64(resultCount)}, nil
 }
 
+// AiringReleases : Get a list of AiringReleases based on the provided params
+func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
+	db := GetDB()
+
+	var result []models.Release
+
+	if err := db.Where("started_airing IS NOT NULL AND stopped_airing IS NULL").Where("release_type_id = ?", 1).Or("release_type_id = ?", 4).Find(&result).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	finalRes := []*proto.Release{}
+
+	for i := range result {
+		finalRes = append(finalRes, result[i].Release)
+	}
+
+	return &proto.ReleasesListResponse{Releases: finalRes}, nil
+}
+
 // RandomRelease : Get a single Random Release
 func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
 	db := GetDB()

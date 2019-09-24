@@ -17,6 +17,7 @@ message Release {
 
 	// Relations
 	int64 anime_id = 40;
+	int64 release_type_id = 41;
 }
 
 message ReleaseQuery {
@@ -44,8 +45,13 @@ message ReleasesResponse {
 	uint64 count = 2;
 }
 
+message ReleasesListResponse { 
+	repeated Release releases = 1;
+}
+
 service ReleaseService {
 	rpc Release(ReleaseRequest) returns (ReleaseResponse);
 	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
+	rpc AiringReleases(Empty) returns (ReleasesListResponse);
 	rpc RandomRelease(Empty) returns (ReleaseResponse);
 }
