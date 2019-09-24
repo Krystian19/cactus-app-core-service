@@ -151,3 +151,16 @@ func (s *Server) LatestEpisode(ctx context.Context, request *proto.LatestEpisode
 		},
 	)
 }
+
+// EpisodeCount : Get the Episode count of the specified Release
+func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRequest) (*proto.EpisodeCountResponse, error) {
+	db := GetDB()
+
+	var episodeCount uint
+
+	if err := db.Where("release_id = ?", request.ReleaseId).Model(&models.Episode{}).Count(&episodeCount).Error; err != nil {
+		episodeCount = 0
+	}
+
+	return &proto.EpisodeCountResponse{Count: int64(episodeCount)}, nil
+}

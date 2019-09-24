@@ -34,6 +34,10 @@ message LatestEpisodeRequest {
 	int64 release_id = 1;
 }
 
+message EpisodeCountRequest {
+	int64 release_id = 1;
+}
+
 message EpisodesRequest {
 	EpisodeQuery query = 1;
 	OrderBy order_by = 2;
@@ -41,6 +45,10 @@ message EpisodesRequest {
 
 message EpisodeResponse { 
 	Episode episode = 1; 
+}
+
+message EpisodeCountResponse { 
+	int64 count = 1; 
 }
 
 message EpisodesResponse { 
@@ -54,4 +62,5 @@ service EpisodeService {
 	rpc HottestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc NewestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
+	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
 }
