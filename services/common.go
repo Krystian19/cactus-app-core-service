@@ -33,6 +33,12 @@ func InitDB() {
 		panic(err)
 	}
 
+	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
+	db.DB().SetMaxIdleConns(100)
+
+	// SetMaxOpenConns sets the maximum number of open connections to the database.
+	db.DB().SetMaxOpenConns(1500)
+
 	DB = db
 }
 
