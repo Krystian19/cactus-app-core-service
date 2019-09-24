@@ -10,11 +10,13 @@ message Release {
 	string poster = 3;
 	string background = 4;
 	int64 release_order = 5;
-	string created_at = 6;
-	string updated_at = 7;
+	string started_airing = 6;
+	string stopped_airing = 7;
+	string created_at = 19;
+	string updated_at = 20;
 
 	// Relations
-	int64 anime_id = 8;
+	int64 anime_id = 40;
 }
 
 message ReleaseQuery {
