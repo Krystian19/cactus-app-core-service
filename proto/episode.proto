@@ -26,6 +26,12 @@ message EpisodeQuery {
 
 message EpisodeRequest {
 	int64 id = 1;
+	int64 release_id = 2;
+	OrderBy order_by = 3;
+}
+
+message LatestEpisodeRequest {
+	int64 release_id = 1;
 }
 
 message EpisodesRequest {
@@ -47,4 +53,5 @@ service EpisodeService {
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc HottestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc NewestEpisodes(EpisodesRequest) returns (EpisodesResponse);
+	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
 }

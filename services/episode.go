@@ -21,6 +21,23 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 		query = query.Where("id = ?", request.Id)
 	}
 
+	if request.ReleaseId != 0 {
+		query = query.Where("release_id = ?", request.ReleaseId)
+	}
+
+	if request.OrderBy != nil {
+		if len(strings.TrimSpace(request.OrderBy.Field)) != 0 {
+
+			sorting := ""
+			if request.OrderBy.Descending {
+				sorting = DESC
+			}
+
+			// Example : SORT BY - "fieldname ASC"
+			query = query.Order(fmt.Sprintf("%s %s", request.OrderBy.Field, sorting))
+		}
+	}
+
 	if err := query.First(&result).Error; err != nil {
 
 		// If nothing was found
@@ -117,6 +134,20 @@ func (s *Server) NewestEpisodes(ctx context.Context, request *proto.EpisodesRequ
 				Descending: true,
 			},
 			Query: request.Query,
+		},
+	)
+}
+
+// LatestEpisode : Get the Latest Episode of the specified Release
+func (s *Server) LatestEpisode(ctx context.Context, request *proto.LatestEpisodeRequest) (*proto.EpisodeResponse, error) {
+	return s.Episode(
+		ctx,
+		&proto.EpisodeRequest{
+			ReleaseId: request.ReleaseId,
+			OrderBy: &proto.OrderBy{
+				Field:      "episode_order",
+				Descending: true,
+			},
 		},
 	)
 }
