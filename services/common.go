@@ -6,8 +6,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	// Includes the mysql gorm driver
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	// Includes the postgres gorm driver
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Server : Contains all of the services methods
@@ -25,7 +25,9 @@ var DB *gorm.DB
 
 // InitDB : Setups the global db connection object (panics if no connection is stablished)
 func InitDB() {
-	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
+	// host=myhost port=myport user=gorm dbname=gorm password=mypassword
+	connectionString := fmt.Sprintf("host=%s port=5432 user=%s dbname=%s password=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_USERNAME"), os.Getenv("DB_NAME"), os.Getenv("DB_PASSWORD"))
+	db, err := gorm.Open("postgres", connectionString)
 
 	if err != nil {
 		panic(err)

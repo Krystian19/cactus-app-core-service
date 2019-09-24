@@ -85,7 +85,7 @@ func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*prot
 	var result models.Release
 	query := db
 
-	if err := query.Order(gorm.Expr("rand()")).First(&result).Error; err != nil {
+	if err := query.Order(gorm.Expr("random()")).First(&result).Error; err != nil {
 
 		// If nothing was found
 		if gorm.IsRecordNotFoundError(err) {
