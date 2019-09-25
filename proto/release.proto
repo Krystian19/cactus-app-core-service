@@ -21,11 +21,15 @@ message Release {
 }
 
 message ReleaseQuery {
-	int64 anime_id = 3;
+	int64 anime_id = 1;
+	string title = 2;
+	
+	// List of Genre Ids
+	repeated int64 genres = 3;
 
 	// Pagination
-	int64 offset = 4;
-	int64 limit = 5;
+	int64 offset = 30;
+	int64 limit = 31;
 }
 
 message ReleaseRequest {

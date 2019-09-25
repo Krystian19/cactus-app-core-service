@@ -47,6 +47,10 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 			query = query.Where("anime_id = ?", request.Query.AnimeId)
 		}
 
+		if request.Query.Title != "" {
+			query = WhereFieldLikeString(query, "title", request.Query.Title)
+		}
+
 		if request.Query.Limit != 0 {
 			query = query.Limit(request.Query.Limit)
 		}

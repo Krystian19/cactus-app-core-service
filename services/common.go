@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 
@@ -44,5 +45,16 @@ func InitDB() {
 
 // GetDB : Get the current global connection object
 func GetDB() *gorm.DB {
+	return DB
+}
+
+// WhereFieldLikeString : Where field is LIKE "long value string with spaces"
+func WhereFieldLikeString(query *gorm.DB, field string, value string) *gorm.DB {
+	tokens := strings.Fields(strings.TrimSpace(value))
+
+	for _, v := range tokens {
+		query = query.Where(fmt.Sprintf("%s LIKE ?", field), fmt.Sprintf("%%%s%%", v))
+	}
+
 	return DB
 }
