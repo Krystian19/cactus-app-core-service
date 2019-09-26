@@ -37,8 +37,14 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 	var result []models.Genre
 	var resultCount uint
 	query := s.db
+	
+	query = query.Table("Genres")
 
 	if request != nil && request.Query != nil {
+		if request.Query.Title != "" {
+			query = WhereFieldLikeString(query, "\"Genres\".title", request.Query.Title)
+		}
+
 		if request.Query.Limit != 0 {
 			query = query.Limit(request.Query.Limit)
 		}
