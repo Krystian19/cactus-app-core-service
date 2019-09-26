@@ -50,8 +50,15 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		}
 
 		if len(request.Query.Genres) > 0 {
-			// SELECT "Releases".* FROM "Releases" INNER JOIN public."ReleaseGenres" ON public."Releases" .id = public."ReleaseGenres".release_id AND public."ReleaseGenres".genre_id IN (1,4)
-			query = query.Joins("INNER JOIN public.\"ReleaseGenres\" ON public.\"Releases\" .id = public.\"ReleaseGenres\".release_id AND public.\"ReleaseGenres\".genre_id IN (?)", request.Query.Genres)
+			// This JOIN method is use of Correlated Subqueries when the foreign key is indexed, (good explanation on the link below)
+			// https://www.periscopedata.com/blog/4-ways-to-join-only-the-first-row-in-sql
+
+			// SELECT "Releases".* FROM "Releases" INNER JOIN (
+			// 	SELECT * FROM "Releases" AS "Release" WHERE (
+			// 		SELECT "release_id" FROM public."ReleaseGenres" WHERE (public."ReleaseGenres".genre_id IN (1,4)) AND "Release".id = public."ReleaseGenres".release_id LIMIT 1
+			// ) IS NOT NULL) AS "Release" ON public."Releases" .id = "Release".id
+
+			query = query.Joins("INNER JOIN ( SELECT * FROM \"Releases\" AS \"Release\" WHERE ( SELECT \"release_id\" FROM public.\"ReleaseGenres\" WHERE (public.\"ReleaseGenres\".genre_id IN (?)) AND \"Release\".id = public.\"ReleaseGenres\".release_id LIMIT 1 ) IS NOT NULL) AS \"Release\" ON public.\"Releases\" .id = \"Release\".id", request.Query.Genres)
 		}
 
 		if request.Query.Limit != 0 {

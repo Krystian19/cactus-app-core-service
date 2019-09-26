@@ -34,7 +34,7 @@ func InitDB() *gorm.DB {
 	}
 
 	// Turn on the logMode to debug db queries
-	// db.LogMode(true)
+	db.LogMode(true)
 
 	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
 	db.DB().SetMaxIdleConns(100)
