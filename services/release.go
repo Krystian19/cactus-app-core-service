@@ -50,10 +50,8 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		}
 
 		if len(request.Query.Genres) > 0 {
-			for _, v := range request.Query.Genres {
-				// SELECT "Releases".* FROM "Releases" INNER JOIN public."ReleaseGenres" ON public."Releases" .id = public."ReleaseGenres".release_id AND public."ReleaseGenres".genre_id = 1
-				query = query.Joins("INNER JOIN public.\"ReleaseGenres\" ON public.\"Releases\" .id = public.\"ReleaseGenres\".release_id AND public.\"ReleaseGenres\".genre_id = ?", v)
-			}
+			// SELECT "Releases".* FROM "Releases" INNER JOIN public."ReleaseGenres" ON public."Releases" .id = public."ReleaseGenres".release_id AND public."ReleaseGenres".genre_id IN (1,4)
+			query = query.Joins("INNER JOIN public.\"ReleaseGenres\" ON public.\"Releases\" .id = public.\"ReleaseGenres\".release_id AND public.\"ReleaseGenres\".genre_id IN (?)", request.Query.Genres)
 		}
 
 		if request.Query.Limit != 0 {
