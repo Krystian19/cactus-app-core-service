@@ -6,10 +6,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-func registerServices(srv *grpc.Server) {
-	proto.RegisterGenreServiceServer(srv, &services.Server{})
-	proto.RegisterAnimeServiceServer(srv, &services.Server{})
-	proto.RegisterReleaseServiceServer(srv, &services.Server{})
-	proto.RegisterReleaseTypeServiceServer(srv, &services.Server{})
-	proto.RegisterEpisodeServiceServer(srv, &services.Server{})
+func registerServices(srv *grpc.Server, serverConfig *services.Server) {
+	proto.RegisterGenreServiceServer(srv, serverConfig)
+	proto.RegisterAnimeServiceServer(srv, serverConfig)
+	proto.RegisterReleaseServiceServer(srv, serverConfig)
+	proto.RegisterReleaseTypeServiceServer(srv, serverConfig)
+	proto.RegisterEpisodeServiceServer(srv, serverConfig)
 }

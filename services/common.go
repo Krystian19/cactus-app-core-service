@@ -12,7 +12,9 @@ import (
 )
 
 // Server : Contains all of the services methods
-type Server struct{}
+type Server struct {
+	db *gorm.DB
+}
 
 const (
 	// DESC : Sort records in descending order
@@ -21,12 +23,9 @@ const (
 	ASC = "asc"
 )
 
-// DB : Global db connection object
-var DB *gorm.DB
-
-// InitDB : Setups the global db connection object (panics if no connection is stablished)
-func InitDB() {
-	// host=myhost port=myport user=gorm dbname=gorm password=mypassword
+// InitDB : Retunrs a db connection object (panics if no connection is stablished)
+func InitDB() *gorm.DB {
+	// host=myhost port=myport user=gorm dbname=gorm password=mypassword sslmode=disable
 	connectionString := fmt.Sprintf("host=%s port=5432 user=%s dbname=%s password=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_USERNAME"), os.Getenv("DB_NAME"), os.Getenv("DB_PASSWORD"))
 	db, err := gorm.Open("postgres", connectionString)
 
@@ -43,12 +42,12 @@ func InitDB() {
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	db.DB().SetMaxOpenConns(1500)
 
-	DB = db
+	return db
 }
 
-// GetDB : Get the current global connection object
-func GetDB() *gorm.DB {
-	return DB
+// NewServerConfig : Returns a pointer to a new Server struct
+func NewServerConfig(db *gorm.DB) *Server {
+	return &Server{db: db}
 }
 
 // WhereFieldLikeString : Where field is LIKE "long value string with spaces"

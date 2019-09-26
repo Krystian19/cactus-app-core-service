@@ -11,10 +11,8 @@ import (
 
 // Genre : Get a single Genre based on the provided params
 func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto.GenreResponse, error) {
-	db := GetDB()
-
 	var result models.Genre
-	query := db
+	query := s.db
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -36,11 +34,9 @@ func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto
 
 // Genres : Get a list of Genres based on the provided params
 func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*proto.GenresResponse, error) {
-	db := GetDB()
-
 	var result []models.Genre
 	var resultCount uint
-	query := db
+	query := s.db
 
 	if request != nil && request.Query != nil {
 		if request.Query.Limit != 0 {

@@ -12,10 +12,8 @@ import (
 
 // Episode : Get a single Episode based on the provided params
 func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*proto.EpisodeResponse, error) {
-	db := GetDB()
-
 	var result models.Episode
-	query := db
+	query := s.db
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -54,11 +52,9 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 
 // Episodes : Get a list of Episodes based on the provided params
 func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
-	db := GetDB()
-
 	var result []models.Episode
 	var resultCount uint
-	query := db
+	query := s.db
 
 	if request != nil && request.Query != nil {
 		if request.Query.ReleaseId != 0 {
@@ -154,7 +150,7 @@ func (s *Server) LatestEpisode(ctx context.Context, request *proto.LatestEpisode
 
 // EpisodeCount : Get the Episode count of the specified Release
 func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRequest) (*proto.EpisodeCountResponse, error) {
-	db := GetDB()
+	db := s.db
 
 	var episodeCount uint
 

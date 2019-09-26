@@ -12,10 +12,8 @@ import (
 
 // ReleaseType : Get a single ReleaseType based on the provided params
 func (s *Server) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRequest) (*proto.ReleaseTypeResponse, error) {
-	db := GetDB()
-
 	var result models.ReleaseType
-	query := db
+	query := s.db
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)

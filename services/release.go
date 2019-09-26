@@ -11,10 +11,8 @@ import (
 
 // Release : Get a single Release based on the provided params
 func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*proto.ReleaseResponse, error) {
-	db := GetDB()
-
 	var result models.Release
-	query := db
+	query := s.db
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -36,11 +34,9 @@ func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*p
 
 // Releases : Get a list of Releases based on the provided params
 func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
-	db := GetDB()
-
 	var result []models.Release
 	var resultCount uint
-	query := db
+	query := s.db
 
 	if request != nil && request.Query != nil {
 		if request.Query.AnimeId != 0 {
@@ -84,7 +80,7 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 
 // AiringReleases : Get a list of AiringReleases based on the provided params
 func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
-	db := GetDB()
+	db := s.db
 
 	var result []models.Release
 
@@ -104,10 +100,8 @@ func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*pro
 
 // RandomRelease : Get a single Random Release
 func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
-	db := GetDB()
-
 	var result models.Release
-	query := db
+	query := s.db
 
 	if err := query.Order(gorm.Expr("random()")).First(&result).Error; err != nil {
 
