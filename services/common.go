@@ -34,6 +34,9 @@ func InitDB() {
 		panic(err)
 	}
 
+	// Turn on the logMode to debug db queries
+	// db.LogMode(true)
+
 	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
 	db.DB().SetMaxIdleConns(100)
 
@@ -53,8 +56,8 @@ func WhereFieldLikeString(query *gorm.DB, field string, value string) *gorm.DB {
 	tokens := strings.Fields(strings.TrimSpace(value))
 
 	for _, v := range tokens {
-		query = query.Where(fmt.Sprintf("%s LIKE ?", field), fmt.Sprintf("%%%s%%", v))
+		query = query.Where(fmt.Sprintf("%s ILIKE ?", field), fmt.Sprintf("%%%s%%", v))
 	}
 
-	return DB
+	return query
 }
