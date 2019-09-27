@@ -7,6 +7,7 @@ import (
 )
 
 func registerServices(srv *grpc.Server, serverConfig *services.Server) {
+	proto.RegisterLanguageServiceServer(srv, serverConfig)
 	proto.RegisterGenreServiceServer(srv, serverConfig)
 	proto.RegisterAnimeServiceServer(srv, serverConfig)
 	proto.RegisterReleaseServiceServer(srv, serverConfig)

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+
+message Language {
+	int64 id = 1;
+	string name = 2;
+	string iso_code = 3;
+}
+
+message LanguageRequest {
+	int64 id = 1;
+}
+
+message LanguageResponse {
+	Language Language = 1;
+}
+
+service LanguageService {
+	rpc Language(LanguageRequest) returns (LanguageResponse);
+}
