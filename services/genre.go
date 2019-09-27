@@ -81,10 +81,11 @@ func (s *Server) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenres
 	var result []models.Genre
 	query := s.db
 
-	query = query.Table("ReleaseGenres")
+	query = query.Table("Genres")
 
+	// INNER JOIN public."ReleaseGenres" ON "Genres" .id = public."ReleaseGenres".genre_id WHERE (release_id = 1)
+	query = query.Joins("INNER JOIN public.\"ReleaseGenres\" ON \"Genres\" .id = public.\"ReleaseGenres\".genre_id")
 	query = query.Where("release_id = ?", request.ReleaseId)
-	query = query.Joins("INNER JOIN public.\"Genre\" ON .genre_id = public.\"Genre\".id")
 
 	if err := query.Find(&result).Error; err != nil {
 		fmt.Println(err)
