@@ -24,6 +24,10 @@ message GenresRequest {
 	GenreQuery query = 1;
 }
 
+message ReleaseGenresRequest {
+	int64 release_id = 1;
+}
+
 message GenreResponse { 
 	Genre genre = 1; 
 }
@@ -33,7 +37,12 @@ message GenresResponse {
 	uint64 count = 2;
 }
 
+message GenresListResponse { 
+	repeated Genre genres = 1;
+}
+
 service GenreService {
 	rpc Genre(GenreRequest) returns (GenreResponse);
 	rpc Genres(GenresRequest) returns (GenresResponse);
+	rpc ReleaseGenres(ReleaseGenresRequest) returns (GenresListResponse);
 }

@@ -37,7 +37,7 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 	var result []models.Genre
 	var resultCount uint
 	query := s.db
-	
+
 	query = query.Table("Genres")
 
 	if request != nil && request.Query != nil {
@@ -74,4 +74,28 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 	}
 
 	return &proto.GenresResponse{Genres: finalRes, Count: uint64(resultCount)}, nil
+}
+
+// ReleaseGenres : Get a list of Genres associated with the specified ReleaseId
+func (s *Server) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenresRequest) (*proto.GenresListResponse, error) {
+	var result []models.Genre
+	query := s.db
+
+	query = query.Table("ReleaseGenres")
+
+	query = query.Where("release_id = ?", request.ReleaseId)
+	query = query.Joins("INNER JOIN public.\"Genre\" ON .genre_id = public.\"Genre\".id")
+
+	if err := query.Find(&result).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	finalRes := []*proto.Genre{}
+
+	for i := range result {
+		finalRes = append(finalRes, result[i].Genre)
+	}
+
+	return &proto.GenresListResponse{Genres: finalRes}, nil
 }
