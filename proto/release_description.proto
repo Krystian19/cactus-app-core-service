@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package proto;
+
+message ReleaseDescription {
+	int64 id = 1;
+    string description = 2;
+    
+    // Relations
+	string release_id = 3;
+	string language_id = 4;
+}
+
+message ReleaseDescriptionsRequest {
+	int64 release_id = 1;
+}
+
+message ReleaseDescriptionsResponse {
+	repeated ReleaseDescription ReleaseDescriptions = 1;
+}
+
+service ReleaseDescriptionService {
+	rpc ReleaseDescriptions(ReleaseDescriptionsRequest) returns (ReleaseDescriptionsResponse);
+}
