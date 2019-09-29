@@ -66,10 +66,28 @@ message ReleaseTypeResponse {
 	ReleaseType release_type = 1; 
 }
 
+message ReleaseDescription {
+	int64 id = 1;
+    string description = 2;
+    
+    // Relations
+	int64 release_id = 3;
+	int64 language_id = 4;
+}
+
+message ReleaseDescriptionsRequest {
+	int64 release_id = 1;
+}
+
+message ReleaseDescriptionsResponse {
+	repeated ReleaseDescription ReleaseDescriptions = 1;
+}
+
 service ReleaseService {
 	rpc Release(ReleaseRequest) returns (ReleaseResponse);
 	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
 	rpc AiringReleases(Empty) returns (ReleasesListResponse);
 	rpc RandomRelease(Empty) returns (ReleaseResponse);
 	rpc ReleaseType(ReleaseTypeRequest) returns (ReleaseTypeResponse);
+	rpc ReleaseDescriptions(ReleaseDescriptionsRequest) returns (ReleaseDescriptionsResponse);
 }
