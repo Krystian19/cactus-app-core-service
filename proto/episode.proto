@@ -28,6 +28,8 @@ message EpisodeRequest {
 	int64 id = 1;
 	int64 release_id = 2;
 	OrderBy order_by = 3;
+	LessThan lessThan = 4;
+	GreaterThan greaterThan = 5;
 }
 
 message LatestEpisodeRequest {

@@ -36,6 +36,20 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 		}
 	}
 
+	if request.LessThan != nil {
+		if len(strings.TrimSpace(request.LessThan.Field)) != 0 {
+			// Example : WHERE fieldname < value
+			query = query.Where(fmt.Sprintf("%s < %d", request.LessThan.Field, request.LessThan.Value))
+		}
+	}
+
+	if request.GreaterThan != nil {
+		if len(strings.TrimSpace(request.GreaterThan.Field)) != 0 {
+			// Example : WHERE fieldname > value
+			query = query.Where(fmt.Sprintf("%s > %d", request.GreaterThan.Field, request.LessThan.Value))
+		}
+	}
+
 	if err := query.First(&result).Error; err != nil {
 
 		// If nothing was found

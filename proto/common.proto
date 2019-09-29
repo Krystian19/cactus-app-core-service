@@ -9,3 +9,13 @@ message OrderBy {
     string field = 1;
     bool descending = 2;
 }
+// Less than the value specified in the specified field
+message LessThan {
+    string field = 1;
+    int64 value = 2;
+}
+// Greater than the value specified in the specified field
+message GreaterThan {
+    string field = 1;
+    int64 value = 2;
+}
