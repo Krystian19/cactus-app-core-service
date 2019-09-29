@@ -29,6 +29,8 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 			sorting := ""
 			if request.OrderBy.Descending {
 				sorting = DESC
+			} else {
+				sorting = ASC
 			}
 
 			// Example : SORT BY - "fieldname ASC"
@@ -46,7 +48,7 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 	if request.GreaterThan != nil {
 		if len(strings.TrimSpace(request.GreaterThan.Field)) != 0 {
 			// Example : WHERE fieldname > value
-			query = query.Where(fmt.Sprintf("%s > %d", request.GreaterThan.Field, request.LessThan.Value))
+			query = query.Where(fmt.Sprintf("%s > %d", request.GreaterThan.Field, request.GreaterThan.Value))
 		}
 	}
 
@@ -90,6 +92,8 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 			sorting := ""
 			if request.OrderBy.Descending {
 				sorting = DESC
+			} else {
+				sorting = ASC
 			}
 
 			// Example : SORT BY - "fieldname ASC"
