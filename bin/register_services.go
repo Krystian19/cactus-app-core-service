@@ -12,6 +12,5 @@ func registerServices(srv *grpc.Server, serverConfig *services.Server) {
 	proto.RegisterAnimeServiceServer(srv, serverConfig)
 	proto.RegisterReleaseServiceServer(srv, serverConfig)
 	proto.RegisterReleaseDescriptionServiceServer(srv, serverConfig)
-	proto.RegisterReleaseTypeServiceServer(srv, serverConfig)
 	proto.RegisterEpisodeServiceServer(srv, serverConfig)
 }

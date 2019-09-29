@@ -130,3 +130,26 @@ func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*prot
 
 	return &proto.ReleaseResponse{Release: result.Release}, nil
 }
+
+// ReleaseType : Get a single ReleaseType based on the provided params
+func (s *Server) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRequest) (*proto.ReleaseTypeResponse, error) {
+	var result models.ReleaseType
+	query := s.db
+
+	if request.Id != 0 {
+		query = query.Where("id = ?", request.Id)
+	}
+
+	if err := query.First(&result).Error; err != nil {
+
+		// If nothing was found
+		if gorm.IsRecordNotFoundError(err) {
+			return &proto.ReleaseTypeResponse{ReleaseType: nil}, nil
+		}
+
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return &proto.ReleaseTypeResponse{ReleaseType: result.ReleaseType}, nil
+}

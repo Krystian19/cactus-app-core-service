@@ -53,9 +53,23 @@ message ReleasesListResponse {
 	repeated Release releases = 1;
 }
 
+message ReleaseType {
+	int64 id = 1;
+	string title = 2;
+}
+
+message ReleaseTypeRequest {
+	int64 id = 1;
+}
+
+message ReleaseTypeResponse { 
+	ReleaseType release_type = 1; 
+}
+
 service ReleaseService {
 	rpc Release(ReleaseRequest) returns (ReleaseResponse);
 	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
 	rpc AiringReleases(Empty) returns (ReleasesListResponse);
 	rpc RandomRelease(Empty) returns (ReleaseResponse);
+	rpc ReleaseType(ReleaseTypeRequest) returns (ReleaseTypeResponse);
 }
