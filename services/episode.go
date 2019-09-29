@@ -178,3 +178,24 @@ func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRe
 
 	return &proto.EpisodeCountResponse{Count: int64(episodeCount)}, nil
 }
+
+// EpisodeSubtitles : Get a list of EpisodeSubtitles associated with the specified EpisodeId
+func (s *Server) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeSubtitlesRequest) (*proto.EpisodeSubtitlesListResponse, error) {
+	var result []models.EpisodeSubtitle
+	query := s.db
+
+	query = query.Where("episode_id = ?", request.EpisodeId)
+
+	if err := query.Find(&result).Error; err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	finalRes := []*proto.EpisodeSubtitle{}
+
+	for i := range result {
+		finalRes = append(finalRes, result[i].EpisodeSubtitle)
+	}
+
+	return &proto.EpisodeSubtitlesListResponse{EpisodeSubtitles: []*proto.EpisodeSubtitle{}}, nil
+}

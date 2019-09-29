@@ -58,6 +58,23 @@ message EpisodesResponse {
 	uint64 count = 2;
 }
 
+message EpisodeSubtitle {
+	int64 id = 1;
+	string subtitle_code = 2;
+
+	// Relations
+	int64 episode_id = 7;
+	int64 language_id = 8;
+}
+
+message EpisodeSubtitlesRequest {
+	int64 episode_id = 1;
+}
+
+message EpisodeSubtitlesListResponse { 
+	repeated EpisodeSubtitle EpisodeSubtitles = 1;
+}
+
 service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
@@ -65,4 +82,5 @@ service EpisodeService {
 	rpc NewestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
 	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
+	rpc EpisodeSubtitles(EpisodeSubtitlesRequest) returns (EpisodeSubtitlesListResponse);
 }
