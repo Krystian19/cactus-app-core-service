@@ -9,5 +9,6 @@ RUN apk add make git gcc libc-dev protobuf
 
 RUN go get github.com/Unknwon/bra
 RUN go get github.com/golang/protobuf/protoc-gen-go
+RUN go get github.com/grpc-ecosystem/grpc-health-probe
 
 CMD bra run
