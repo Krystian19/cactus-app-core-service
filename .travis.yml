@@ -1,0 +1,28 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "10"
+  
+services:
+  - docker
+
+before_install:
+  # Setup the networks
+  - docker network create testing_network
+
+  # Setup DB image
+  - docker run --name cactus.postgres -d -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=cactus_app --network=testing_network postgres:9.6.15-alpine
+
+  # Build the docker image
+  - docker build -t janguzman/cactus_core .
+install:
+  - docker run -ti --name=cactus_core -d -v $(pwd):/app -p 9040:9040 --network=testing_network janguzman/cactus_core
+  - docker ps -a
+
+script:
+  # Wait for a minute to give time for the container to start properly
+  - sleep 1m  
+
+  # Test that the GRPC server is running correctly
+  - docker exec -ti cactus_core /go/bin/grpc-health-probe -addr=localhost:9040 -connect-timeout 250ms -rpc-timeout 100ms
