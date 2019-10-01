@@ -17,7 +17,7 @@ before_install:
   # Build the docker image
   - docker build -t janguzman/cactus_core .
 install:
-  - docker run -ti --name=cactus_core -d -v $(pwd):/app -p 9040:9040 --network=testing_network janguzman/cactus_core
+  - docker run -ti --name=cactus_core -d -e DB_HOST=cactus.postgres -e DB_NAME=cactus_app -e DB_USERNAME=postgres -e DB_PASSWORD=secret -v $(pwd):/app -p 9040:9040 --network=testing_network janguzman/cactus_core
   - docker ps -a
 
 script:
