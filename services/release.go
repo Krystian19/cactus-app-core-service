@@ -46,7 +46,7 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		}
 
 		if request.Query.Title != "" {
-			query = WhereFieldLikeString(query, "\"Releases\".title", request.Query.Title)
+			query = models.WhereFieldLikeString(query, "\"Releases\".title", request.Query.Title)
 		}
 
 		if len(request.Query.Genres) > 0 {

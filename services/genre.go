@@ -42,7 +42,7 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 
 	if request != nil && request.Query != nil {
 		if request.Query.Title != "" {
-			query = WhereFieldLikeString(query, "\"Genres\".title", request.Query.Title)
+			query = models.WhereFieldLikeString(query, "\"Genres\".title", request.Query.Title)
 		}
 
 		if request.Query.Limit != 0 {

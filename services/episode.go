@@ -28,9 +28,9 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 
 			sorting := ""
 			if request.OrderBy.Descending {
-				sorting = DESC
+				sorting = models.DESC
 			} else {
-				sorting = ASC
+				sorting = models.ASC
 			}
 
 			// Example : SORT BY - "fieldname ASC"
@@ -91,9 +91,9 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 
 			sorting := ""
 			if request.OrderBy.Descending {
-				sorting = DESC
+				sorting = models.DESC
 			} else {
-				sorting = ASC
+				sorting = models.ASC
 			}
 
 			// Example : SORT BY - "fieldname ASC"

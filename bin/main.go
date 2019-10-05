@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -23,7 +24,7 @@ func main() {
 	EnvVarsCheck()
 
 	// Set database connection (panics if no connection is stablished)
-	db := services.InitDB()
+	db := models.InitDB()
 
 	// Setup the Server Config struct
 	serverConfig := services.NewServerConfig(db)
