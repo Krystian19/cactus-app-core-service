@@ -23,12 +23,6 @@ func main() {
 	// Check for the important env vars to be presentb (may panic if an important value is not set)
 	EnvVarsCheck()
 
-	// Set database connection (panics if no connection is stablished)
-	db := models.InitDB()
-
-	// Setup the Server Config struct
-	serverConfig := services.NewServerConfig(db)
-
 	listener, err := net.Listen("tcp", ":"+PORT)
 
 	if err != nil {
@@ -36,7 +30,10 @@ func main() {
 	}
 
 	srv := grpc.NewServer()
-	registerServices(srv, serverConfig)
+
+	// Setup the GRPC Server struct (panics if no db connection is stablished)
+	registerServices(srv, services.NewServerConfig(models.InitDB()))
+
 	reflection.Register(srv)
 
 	log.Printf("Protobuf Server running @ http://localhost:%s", PORT)
