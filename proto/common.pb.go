@@ -20,6 +20,34 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Join_JoinType int32
+
+const (
+	Join_INNER_JOIN Join_JoinType = 0
+	Join_LEFT_JOIN  Join_JoinType = 1
+	Join_RIGHT_JOIN Join_JoinType = 2
+)
+
+var Join_JoinType_name = map[int32]string{
+	0: "INNER_JOIN",
+	1: "LEFT_JOIN",
+	2: "RIGHT_JOIN",
+}
+
+var Join_JoinType_value = map[string]int32{
+	"INNER_JOIN": 0,
+	"LEFT_JOIN":  1,
+	"RIGHT_JOIN": 2,
+}
+
+func (x Join_JoinType) String() string {
+	return proto.EnumName(Join_JoinType_name, int32(x))
+}
+
+func (Join_JoinType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_1747d3070a2311a0, []int{5, 0}
+}
+
 type Empty struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -99,6 +127,46 @@ func (m *OrderBy) GetDescending() bool {
 	return false
 }
 
+// GroupBy field name
+type GroupBy struct {
+	Field                string   `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GroupBy) Reset()         { *m = GroupBy{} }
+func (m *GroupBy) String() string { return proto.CompactTextString(m) }
+func (*GroupBy) ProtoMessage()    {}
+func (*GroupBy) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1747d3070a2311a0, []int{2}
+}
+
+func (m *GroupBy) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GroupBy.Unmarshal(m, b)
+}
+func (m *GroupBy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GroupBy.Marshal(b, m, deterministic)
+}
+func (m *GroupBy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GroupBy.Merge(m, src)
+}
+func (m *GroupBy) XXX_Size() int {
+	return xxx_messageInfo_GroupBy.Size(m)
+}
+func (m *GroupBy) XXX_DiscardUnknown() {
+	xxx_messageInfo_GroupBy.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GroupBy proto.InternalMessageInfo
+
+func (m *GroupBy) GetField() string {
+	if m != nil {
+		return m.Field
+	}
+	return ""
+}
+
 // Less than the value specified in the specified field
 type LessThan struct {
 	Field                string   `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
@@ -112,7 +180,7 @@ func (m *LessThan) Reset()         { *m = LessThan{} }
 func (m *LessThan) String() string { return proto.CompactTextString(m) }
 func (*LessThan) ProtoMessage()    {}
 func (*LessThan) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1747d3070a2311a0, []int{2}
+	return fileDescriptor_1747d3070a2311a0, []int{3}
 }
 
 func (m *LessThan) XXX_Unmarshal(b []byte) error {
@@ -160,7 +228,7 @@ func (m *GreaterThan) Reset()         { *m = GreaterThan{} }
 func (m *GreaterThan) String() string { return proto.CompactTextString(m) }
 func (*GreaterThan) ProtoMessage()    {}
 func (*GreaterThan) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1747d3070a2311a0, []int{3}
+	return fileDescriptor_1747d3070a2311a0, []int{4}
 }
 
 func (m *GreaterThan) XXX_Unmarshal(b []byte) error {
@@ -195,25 +263,81 @@ func (m *GreaterThan) GetValue() int64 {
 	return 0
 }
 
+type Join struct {
+	JoinType             Join_JoinType `protobuf:"varint,1,opt,name=join_type,json=joinType,proto3,enum=proto.Join_JoinType" json:"join_type,omitempty"`
+	Field                string        `protobuf:"bytes,2,opt,name=field,proto3" json:"field,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *Join) Reset()         { *m = Join{} }
+func (m *Join) String() string { return proto.CompactTextString(m) }
+func (*Join) ProtoMessage()    {}
+func (*Join) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1747d3070a2311a0, []int{5}
+}
+
+func (m *Join) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Join.Unmarshal(m, b)
+}
+func (m *Join) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Join.Marshal(b, m, deterministic)
+}
+func (m *Join) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Join.Merge(m, src)
+}
+func (m *Join) XXX_Size() int {
+	return xxx_messageInfo_Join.Size(m)
+}
+func (m *Join) XXX_DiscardUnknown() {
+	xxx_messageInfo_Join.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Join proto.InternalMessageInfo
+
+func (m *Join) GetJoinType() Join_JoinType {
+	if m != nil {
+		return m.JoinType
+	}
+	return Join_INNER_JOIN
+}
+
+func (m *Join) GetField() string {
+	if m != nil {
+		return m.Field
+	}
+	return ""
+}
+
 func init() {
+	proto.RegisterEnum("proto.Join_JoinType", Join_JoinType_name, Join_JoinType_value)
 	proto.RegisterType((*Empty)(nil), "proto.Empty")
 	proto.RegisterType((*OrderBy)(nil), "proto.OrderBy")
+	proto.RegisterType((*GroupBy)(nil), "proto.GroupBy")
 	proto.RegisterType((*LessThan)(nil), "proto.LessThan")
 	proto.RegisterType((*GreaterThan)(nil), "proto.GreaterThan")
+	proto.RegisterType((*Join)(nil), "proto.Join")
 }
 
 func init() { proto.RegisterFile("proto/common.proto", fileDescriptor_1747d3070a2311a0) }
 
 var fileDescriptor_1747d3070a2311a0 = []byte{
-	// 152 bytes of a gzipped FileDescriptorProto
+	// 251 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2a, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0x4f, 0xce, 0xcf, 0xcd, 0xcd, 0xcf, 0xd3, 0x03, 0x73, 0x84, 0x58, 0xc1, 0x94, 0x12,
 	0x3b, 0x17, 0xab, 0x6b, 0x6e, 0x41, 0x49, 0xa5, 0x92, 0x3d, 0x17, 0xbb, 0x7f, 0x51, 0x4a, 0x6a,
 	0x91, 0x53, 0xa5, 0x90, 0x08, 0x17, 0x6b, 0x5a, 0x66, 0x6a, 0x4e, 0x8a, 0x04, 0xa3, 0x02, 0xa3,
 	0x06, 0x67, 0x10, 0x84, 0x23, 0x24, 0xc7, 0xc5, 0x95, 0x92, 0x5a, 0x9c, 0x9c, 0x9a, 0x97, 0x92,
-	0x99, 0x97, 0x2e, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x11, 0x84, 0x24, 0xa2, 0x64, 0xc6, 0xc5, 0xe1,
-	0x93, 0x5a, 0x5c, 0x1c, 0x92, 0x91, 0x98, 0x87, 0xc3, 0x04, 0x11, 0x2e, 0xd6, 0xb2, 0xc4, 0x9c,
-	0xd2, 0x54, 0xb0, 0x66, 0xe6, 0x20, 0x08, 0x47, 0xc9, 0x92, 0x8b, 0xdb, 0xbd, 0x28, 0x35, 0xb1,
-	0x24, 0xb5, 0x88, 0x54, 0xad, 0x49, 0x6c, 0x60, 0x3f, 0x18, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff,
-	0x1c, 0xb4, 0x2b, 0xc9, 0xe0, 0x00, 0x00, 0x00,
+	0x99, 0x97, 0x2e, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x11, 0x84, 0x24, 0xa2, 0x24, 0xcf, 0xc5, 0xee,
+	0x5e, 0x94, 0x5f, 0x5a, 0x80, 0xcb, 0x00, 0x25, 0x33, 0x2e, 0x0e, 0x9f, 0xd4, 0xe2, 0xe2, 0x90,
+	0x8c, 0xc4, 0x3c, 0x1c, 0x56, 0x88, 0x70, 0xb1, 0x96, 0x25, 0xe6, 0x94, 0xa6, 0x82, 0x4d, 0x67,
+	0x0e, 0x82, 0x70, 0x94, 0x2c, 0xb9, 0xb8, 0xdd, 0x8b, 0x52, 0x13, 0x4b, 0x52, 0x8b, 0x48, 0xd6,
+	0xda, 0xc5, 0xc8, 0xc5, 0xe2, 0x95, 0x9f, 0x99, 0x27, 0x64, 0xc8, 0xc5, 0x99, 0x95, 0x9f, 0x99,
+	0x17, 0x5f, 0x52, 0x59, 0x90, 0x0a, 0xd6, 0xc8, 0x67, 0x24, 0x02, 0x09, 0x08, 0x3d, 0x90, 0x3c,
+	0x98, 0x08, 0xa9, 0x2c, 0x48, 0x0d, 0xe2, 0xc8, 0x82, 0xb2, 0x10, 0xf6, 0x30, 0x21, 0x7b, 0xc2,
+	0x92, 0x8b, 0x03, 0xa6, 0x56, 0x88, 0x8f, 0x8b, 0xcb, 0xd3, 0xcf, 0xcf, 0x35, 0x28, 0xde, 0xcb,
+	0xdf, 0xd3, 0x4f, 0x80, 0x41, 0x88, 0x97, 0x8b, 0xd3, 0xc7, 0xd5, 0x2d, 0x04, 0xc2, 0x65, 0x04,
+	0x49, 0x07, 0x79, 0xba, 0x7b, 0x40, 0xf9, 0x4c, 0x49, 0x6c, 0x60, 0xfb, 0x8c, 0x01, 0x01, 0x00,
+	0x00, 0xff, 0xff, 0x27, 0x39, 0xfe, 0x72, 0x8e, 0x01, 0x00, 0x00,
 }

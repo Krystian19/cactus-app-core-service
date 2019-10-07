@@ -75,6 +75,16 @@ message EpisodeSubtitlesListResponse {
 	repeated EpisodeSubtitle EpisodeSubtitles = 1;
 }
 
+message EpisodeSeen {
+	int64 id = 1;	
+	string created_at = 3;
+	string updated_at = 4;
+
+	// Relations
+	int64 episode_id = 7;
+	// int64 user_id = 8; // TODO: use this field when users are implemented
+}
+
 service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
