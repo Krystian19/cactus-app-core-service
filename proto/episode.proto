@@ -85,6 +85,13 @@ message EpisodeSeen {
 	// int64 user_id = 8; // TODO: use this field when users are implemented
 }
 
+message EpisodeSeenRequest {
+	int64 episode_id = 1;
+
+	// This episode was seen by user x
+	// int64 user_id = 8; // TODO: use this field when users are implemented
+}
+
 service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
@@ -93,4 +100,5 @@ service EpisodeService {
 	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
 	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
 	rpc EpisodeSubtitles(EpisodeSubtitlesRequest) returns (EpisodeSubtitlesListResponse);
+	rpc EpisodeSeen(EpisodeSeenRequest) returns (Empty);
 }

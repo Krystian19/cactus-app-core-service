@@ -199,3 +199,9 @@ func (s *Server) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeSub
 
 	return &proto.EpisodeSubtitlesListResponse{EpisodeSubtitles: []*proto.EpisodeSubtitle{}}, nil
 }
+
+// EpisodeSeen : Marks x episode as "seen", with a timestamp
+func (s *Server) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
+	// TODO : When users are implemented the EpisodeSeen record should include an user_id
+	return &proto.Empty{}, nil
+}
