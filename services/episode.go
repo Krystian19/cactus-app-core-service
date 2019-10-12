@@ -124,18 +124,58 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 }
 
 // HottestEpisodes : Get a list of HottestEpisodes based on the provided params
-func (s *Server) HottestEpisodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
+func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationRequest) (*proto.EpisodesResponse, error) {
+	finalRes := []*proto.Episode{}
+	var resultCount uint
 	// TODO : Order Hottest Episodes by the amount of times a single episode has been seen
-	return s.Episodes(
-		ctx,
-		&proto.EpisodesRequest{
-			OrderBy: &proto.OrderBy{
-				Field:      "created_at",
-				Descending: false,
-			},
-			Query: request.Query,
-		},
-	)
+
+	// SELECT E.*, count(ES.id) as seen_count FROM public."Episodes" E
+	// 		LEFT JOIN public."EpisodesSeen" ES on ES.episode_id = E.id
+	// 		group by E.id
+	// 		order by seen_count DESC;
+
+	const queryString = "SELECT E.*, count(ES.id) as seen_count FROM public.\"Episodes\" E LEFT JOIN public.\"EpisodesSeen\" ES on ES.episode_id = E.id group by E.id order by seen_count DESC"
+	query := s.db.Raw(queryString)
+
+	if request != nil {
+		if request.Limit != 0 {
+			query = query.Limit(request.Limit)
+		}
+
+		if request.Offset != 0 {
+			query = query.Offset(request.Offset)
+		}
+	}
+
+	rows, err := query.Rows() // (*sql.Rows, error)
+	defer rows.Close()
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	for rows.Next() {
+		var episode = models.Episode{}
+		s.db.ScanRows(rows, &episode)
+		finalRes = append(finalRes, episode.Episode)
+	}
+
+	// Remove pagination constraints before counting
+	query = query.Limit(nil)
+	query = query.Offset(nil)
+
+	countQueryString := fmt.Sprintf("SELECT COUNT(ES.id) FROM (%s) as ES", queryString)
+	row := s.db.Raw(countQueryString).Row() // (*sql.Row)
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	row.Scan(&resultCount)
+
+	return &proto.EpisodesResponse{Episodes: finalRes, Count: uint64(resultCount)}, nil
 }
 
 // NewestEpisodes : Get a list of NewestEpisodes based on the provided params

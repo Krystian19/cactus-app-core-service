@@ -95,7 +95,7 @@ message EpisodeSeenRequest {
 service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
-	rpc HottestEpisodes(EpisodesRequest) returns (EpisodesResponse);
+	rpc HottestEpisodes(PaginationRequest) returns (EpisodesResponse);
 	rpc NewestEpisodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
 	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
