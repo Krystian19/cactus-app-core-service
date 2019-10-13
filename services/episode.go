@@ -178,20 +178,6 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 	return &proto.EpisodesResponse{Episodes: finalRes, Count: uint64(resultCount)}, nil
 }
 
-// NewestEpisodes : Get a list of NewestEpisodes based on the provided params
-func (s *Server) NewestEpisodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
-	return s.Episodes(
-		ctx,
-		&proto.EpisodesRequest{
-			OrderBy: &proto.OrderBy{
-				Field:      "created_at",
-				Descending: true,
-			},
-			Query: request.Query,
-		},
-	)
-}
-
 // LatestEpisode : Get the Latest Episode of the specified Release
 func (s *Server) LatestEpisode(ctx context.Context, request *proto.LatestEpisodeRequest) (*proto.EpisodeResponse, error) {
 	return s.Episode(
