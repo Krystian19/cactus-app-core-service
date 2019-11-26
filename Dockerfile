@@ -4,6 +4,7 @@ ENV GO111MODULE=on
 
 WORKDIR /go/src/app
 COPY . .
+EXPOSE 9040
 
 RUN apk add make git gcc libc-dev protobuf
 
