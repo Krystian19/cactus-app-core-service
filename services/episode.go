@@ -134,7 +134,15 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 	// 		group by E.id
 	// 		order by seen_count DESC;
 
-	const queryString = "SELECT E.*, count(ES.id) as seen_count FROM public.\"Episodes\" E LEFT JOIN public.\"EpisodesSeen\" ES on ES.episode_id = E.id group by E.id order by seen_count DESC"
+	queryString := fmt.Sprintf(`
+		SELECT E.*, count(ES.id) as seen_count FROM public."%s" E
+			LEFT JOIN public."%s" ES on ES.episode_id = E.id
+			group by E.id
+			order by seen_count DESC`,
+		models.Episode.TableName(models.Episode{}),
+		models.EpisodeSeen.TableName(models.EpisodeSeen{}),
+	)
+
 	query := s.db.Raw(queryString)
 
 	if request != nil {
