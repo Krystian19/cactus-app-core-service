@@ -42,7 +42,11 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 
 	if request != nil && request.Query != nil {
 		if request.Query.Title != "" {
-			query = models.WhereFieldLikeString(query, "\"Genres\".title", request.Query.Title)
+			query = models.WhereFieldLikeString(
+				query,
+				fmt.Sprintf(`"%s".title`, models.Genre.TableName(models.Genre{})),
+				request.Query.Title,
+			)
 		}
 
 		if request.Query.Limit != 0 {
@@ -84,7 +88,13 @@ func (s *Server) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenres
 	query = query.Table("Genres")
 
 	// INNER JOIN public."ReleaseGenres" ON "Genres" .id = public."ReleaseGenres".genre_id WHERE (release_id = 1)
-	query = query.Joins("INNER JOIN public.\"ReleaseGenres\" ON \"Genres\" .id = public.\"ReleaseGenres\".genre_id")
+	query = query.Joins(
+		fmt.Sprintf(
+			`INNER JOIN public."ReleaseGenres" ON "%s" .id = public."ReleaseGenres".genre_id`,
+			models.Genre.TableName(models.Genre{}),
+		),
+	)
+
 	query = query.Where("release_id = ?", request.ReleaseId)
 
 	if err := query.Find(&result).Error; err != nil {

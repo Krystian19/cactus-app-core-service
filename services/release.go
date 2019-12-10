@@ -46,7 +46,11 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 		}
 
 		if request.Query.Title != "" {
-			query = models.WhereFieldLikeString(query, "\"Releases\".title", request.Query.Title)
+			query = models.WhereFieldLikeString(
+				query,
+				fmt.Sprintf(`"%s".title`, models.Release.TableName(models.Release{})),
+				request.Query.Title,
+			)
 		}
 
 		if len(request.Query.Genres) > 0 {
@@ -55,10 +59,21 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 
 			// SELECT "Releases".* FROM "Releases" INNER JOIN (
 			// 	SELECT * FROM "Releases" AS "Release" WHERE (
-			// 		SELECT "release_id" FROM public."ReleaseGenres" WHERE (public."ReleaseGenres".genre_id IN (1,4)) AND "Release".id = public."ReleaseGenres".release_id LIMIT 1
+			// 		SELECT "release_id" FROM public."ReleaseGenres" WHERE (
+			// 			public."ReleaseGenres".genre_id IN (1,4)) AND "Release".id = public."ReleaseGenres".release_id LIMIT 1
 			// ) IS NOT NULL) AS "Release" ON public."Releases" .id = "Release".id
 
-			query = query.Joins("INNER JOIN ( SELECT * FROM \"Releases\" AS \"Release\" WHERE ( SELECT \"release_id\" FROM public.\"ReleaseGenres\" WHERE (public.\"ReleaseGenres\".genre_id IN (?)) AND \"Release\".id = public.\"ReleaseGenres\".release_id LIMIT 1 ) IS NOT NULL) AS \"Release\" ON public.\"Releases\" .id = \"Release\".id", request.Query.Genres)
+			query = query.Joins(
+				fmt.Sprintf(`INNER JOIN ( 
+					SELECT * FROM "%s" AS "Release" WHERE (
+						SELECT "release_id" FROM public."ReleaseGenres" WHERE (
+							public."ReleaseGenres".genre_id IN (?)) AND "Release".id = public."ReleaseGenres".release_id LIMIT 1
+						) IS NOT NULL) AS "Release" ON public."%s" .id = "Release".id`,
+					models.Release.TableName(models.Release{}),
+					models.Release.TableName(models.Release{}),
+				),
+				request.Query.Genres,
+			)
 		}
 
 		if request.Query.Limit != 0 {
@@ -94,11 +109,12 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 
 // AiringReleases : Get a list of AiringReleases based on the provided params
 func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
-	db := s.db
+	query := s.db
 
 	var result []models.Release
 
-	if err := db.Where("started_airing IS NOT NULL AND stopped_airing IS NULL").Where("release_type_id = ?", 1).Or("release_type_id = ?", 4).Find(&result).Error; err != nil {
+	query = query.Where("started_airing IS NOT NULL AND stopped_airing IS NULL").Where("release_type_id = ?", 1).Or("release_type_id = ?", 4)
+	if err := query.Find(&result).Error; err != nil {
 		fmt.Println(err)
 		return nil, err
 	}

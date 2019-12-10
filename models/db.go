@@ -18,7 +18,14 @@ const (
 // InitDB : Retunrs a db connection object (panics if no connection is stablished)
 func InitDB() *gorm.DB {
 	// host=myhost port=myport user=gorm dbname=gorm password=mypassword sslmode=disable
-	connectionString := fmt.Sprintf("host=%s port=5432 user=%s dbname=%s password=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_USERNAME"), os.Getenv("DB_NAME"), os.Getenv("DB_PASSWORD"))
+	connectionString := fmt.Sprintf(
+		"host=%s port=5432 user=%s dbname=%s password=%s sslmode=disable",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USERNAME"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PASSWORD"),
+	)
+
 	db, err := gorm.Open("postgres", connectionString)
 
 	if err != nil {

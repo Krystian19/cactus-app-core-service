@@ -41,14 +41,18 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 	if request.LessThan != nil {
 		if len(strings.TrimSpace(request.LessThan.Field)) != 0 {
 			// Example : WHERE fieldname < value
-			query = query.Where(fmt.Sprintf("%s < %d", request.LessThan.Field, request.LessThan.Value))
+			query = query.Where(
+				fmt.Sprintf("%s < %d", request.LessThan.Field, request.LessThan.Value),
+			)
 		}
 	}
 
 	if request.GreaterThan != nil {
 		if len(strings.TrimSpace(request.GreaterThan.Field)) != 0 {
 			// Example : WHERE fieldname > value
-			query = query.Where(fmt.Sprintf("%s > %d", request.GreaterThan.Field, request.GreaterThan.Value))
+			query = query.Where(
+				fmt.Sprintf("%s > %d", request.GreaterThan.Field, request.GreaterThan.Value),
+			)
 		}
 	}
 
@@ -97,7 +101,9 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 			}
 
 			// Example : SORT BY - "fieldname ASC"
-			query = query.Order(fmt.Sprintf("%s %s", request.OrderBy.Field, sorting))
+			query = query.Order(
+				fmt.Sprintf("%s %s", request.OrderBy.Field, sorting),
+			)
 		}
 	}
 
@@ -127,7 +133,6 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationRequest) (*proto.EpisodesResponse, error) {
 	finalRes := []*proto.Episode{}
 	var resultCount uint
-	// TODO : Order Hottest Episodes by the amount of times a single episode has been seen
 
 	// SELECT E.*, count(ES.id) as seen_count FROM public."Episodes" E
 	// 		LEFT JOIN public."EpisodesSeen" ES on ES.episode_id = E.id
@@ -173,8 +178,9 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 	query = query.Limit(nil)
 	query = query.Offset(nil)
 
-	countQueryString := fmt.Sprintf("SELECT COUNT(ES.id) FROM (%s) as ES", queryString)
-	row := s.db.Raw(countQueryString).Row() // (*sql.Row)
+	row := s.db.Raw(
+		fmt.Sprintf("SELECT COUNT(ES.id) FROM (%s) as ES", queryString),
+	).Row() // (*sql.Row)
 
 	if err != nil {
 		fmt.Println(err)
