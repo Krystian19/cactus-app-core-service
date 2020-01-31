@@ -25,8 +25,8 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 
 	if request.OrderBy != nil {
 		if len(strings.TrimSpace(request.OrderBy.Field)) != 0 {
+			var sorting string
 
-			sorting := ""
 			if request.OrderBy.Descending {
 				sorting = models.DESC
 			} else {
@@ -92,8 +92,8 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 
 	if request != nil && request.OrderBy != nil {
 		if len(strings.TrimSpace(request.OrderBy.Field)) != 0 {
+			var sorting string
 
-			sorting := ""
 			if request.OrderBy.Descending {
 				sorting = models.DESC
 			} else {
