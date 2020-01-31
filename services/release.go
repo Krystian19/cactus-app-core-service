@@ -38,8 +38,6 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 	var resultCount uint
 	query := s.db
 
-	query = query.Table("Releases")
-
 	if request != nil && request.Query != nil {
 		if request.Query.AnimeId != 0 {
 			query = query.Where("anime_id = ?", request.Query.AnimeId)

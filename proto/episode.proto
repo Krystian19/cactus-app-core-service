@@ -32,10 +32,6 @@ message EpisodeRequest {
 	GreaterThan greaterThan = 5;
 }
 
-message LatestEpisodeRequest {
-	int64 release_id = 1;
-}
-
 message EpisodeCountRequest {
 	int64 release_id = 1;
 }
@@ -96,7 +92,6 @@ service EpisodeService {
 	rpc Episode(EpisodeRequest) returns (EpisodeResponse);
 	rpc Episodes(EpisodesRequest) returns (EpisodesResponse);
 	rpc HottestEpisodes(PaginationRequest) returns (EpisodesResponse);
-	rpc LatestEpisode(LatestEpisodeRequest) returns (EpisodeResponse);
 	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
 	rpc EpisodeSubtitles(EpisodeSubtitlesRequest) returns (EpisodeSubtitlesListResponse);
 	rpc EpisodeSeen(EpisodeSeenRequest) returns (Empty);

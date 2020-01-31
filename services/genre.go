@@ -38,8 +38,6 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 	var resultCount uint
 	query := s.db
 
-	query = query.Table("Genres")
-
 	if request != nil && request.Query != nil {
 		if request.Query.Title != "" {
 			query = models.WhereFieldLikeString(
@@ -84,8 +82,6 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 func (s *Server) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenresRequest) (*proto.GenresListResponse, error) {
 	var result []models.Genre
 	query := s.db
-
-	query = query.Table("Genres")
 
 	// INNER JOIN public."ReleaseGenres" ON "Genres" .id = public."ReleaseGenres".genre_id WHERE (release_id = 1)
 	query = query.Joins(

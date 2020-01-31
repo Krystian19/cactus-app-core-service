@@ -753,11 +753,11 @@ var fileDescriptor_987cf5695bafb180 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConn
+var _ grpc.ClientConnInterface
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
+const _ = grpc.SupportPackageIsVersion6
 
 // ReleaseServiceClient is the client API for ReleaseService service.
 //
@@ -772,10 +772,10 @@ type ReleaseServiceClient interface {
 }
 
 type releaseServiceClient struct {
-	cc *grpc.ClientConn
+	cc grpc.ClientConnInterface
 }
 
-func NewReleaseServiceClient(cc *grpc.ClientConn) ReleaseServiceClient {
+func NewReleaseServiceClient(cc grpc.ClientConnInterface) ReleaseServiceClient {
 	return &releaseServiceClient{cc}
 }
 
