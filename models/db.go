@@ -44,7 +44,7 @@ func InitDB() *gorm.DB {
 	return db
 }
 
-// WhereFieldLikeString : Where field is LIKE "long value string with spaces"
+// WhereFieldLikeString : Where field is LIKE "long string with spaces"
 func WhereFieldLikeString(query *gorm.DB, field string, value string) *gorm.DB {
 	tokens := strings.Fields(strings.TrimSpace(value))
 
