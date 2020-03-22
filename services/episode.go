@@ -195,7 +195,6 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 // EpisodeCount : Get the Episode count of the specified Release
 func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRequest) (*proto.EpisodeCountResponse, error) {
 	db := s.db
-
 	var episodeCount uint
 
 	if err := db.Where("release_id = ?", request.ReleaseId).Model(&models.Episode{}).Count(&episodeCount).Error; err != nil {
