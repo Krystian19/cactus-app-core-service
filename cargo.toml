@@ -1,0 +1,18 @@
+[package]
+name = "cactus-core"
+version = "1.0.0"
+
+[[bin]]
+name = "app"
+path = "src/main.rs"
+
+edition = "2018"
+
+[dependencies]
+tonic = "0.1"
+prost = "0.6"
+tokio = { version = "0.2", features = ["macros"] }
+async-trait = "0.1.24"
+
+[build-dependencies]
+tonic-build = "0.1.0"
