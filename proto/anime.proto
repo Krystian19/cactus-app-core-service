@@ -15,7 +15,7 @@ message Anime {
 
 // The request message containing the user's name.
 message AnimeRequest {
-  string name = 1;
+  string id = 1;
 }
 
 // The response message containing the greetings
