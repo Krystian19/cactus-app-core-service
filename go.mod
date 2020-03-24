@@ -1,4 +1,4 @@
-module github.com/Krystian19/cactus-core
+module github.com/Krystian19/rust-grpc-server
 
 go 1.13
 
