@@ -2,8 +2,8 @@ use async_trait::async_trait;
 use std::net::SocketAddr;
 use tonic::transport::Server;
 
-use greeter::{hello_world::greeter_server::GreeterServer, MyGreeter};
-mod greeter;
+use anime::{proto::anime_service_server::AnimeServiceServer, Anime};
+mod anime;
 
 pub struct Services;
 
@@ -16,7 +16,7 @@ pub trait ServicesMethods {
 impl ServicesMethods for Services {
   async fn build_server(&self, addr: SocketAddr) -> Result<(), Box<dyn std::error::Error>> {
     Server::builder()
-      .add_service(GreeterServer::new(MyGreeter::default()))
+      .add_service(AnimeServiceServer::new(Anime::default()))
       .serve(addr)
       .await?;
 
