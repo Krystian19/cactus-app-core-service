@@ -6,19 +6,17 @@ service AnimeService {
   rpc Anime (AnimeRequest) returns (AnimeReply);
 }
 
+message AnimeRequest {
+  string id = 1;
+}
+
+message AnimeReply {
+  Anime anime = 1;
+}
+
 message Anime {
 	int64 id = 1;
 	string title = 2;
 	string created_at = 3;
 	string updated_at = 4;
-}
-
-// The request message containing the user's name.
-message AnimeRequest {
-  string id = 1;
-}
-
-// The response message containing the greetings
-message AnimeReply {
-  Anime anime = 1;
 }
