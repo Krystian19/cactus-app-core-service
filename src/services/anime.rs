@@ -10,10 +10,9 @@ impl AnimeService for Anime {
     &self,
     _request: Request<anime::AnimeRequest>,
   ) -> Result<Response<anime::AnimeResponse>, Status> {
-
     let res = anime::AnimeResponse {
       anime: Some(anime::Anime {
-        id: 1,
+        id: 1996,
         title: String::from("La cosa esta funcionando"),
         created_at: String::from("Any"),
         updated_at: String::from("Any"),

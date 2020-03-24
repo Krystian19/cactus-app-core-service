@@ -11,5 +11,4 @@ RUN cargo install --version 1.12.0 watchexec
 # Install weird dependencies for image
 RUN rustup component add rustfmt --toolchain 1.41.0-x86_64-unknown-linux-gnu
 
-# CMD make
-CMD tail -f /dev/null
+CMD make
