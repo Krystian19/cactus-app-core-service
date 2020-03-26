@@ -2,10 +2,15 @@ use async_trait::async_trait;
 use std::net::SocketAddr;
 use tonic::transport::Server;
 
-use anime::{proto::anime_service_server::AnimeServiceServer, Anime};
+use anime::{Anime};
+use proto::{anime_service_server::AnimeServiceServer};
 mod anime;
 
 pub struct Services;
+
+pub mod proto {
+  tonic::include_proto!("proto");
+}
 
 #[async_trait]
 pub trait ServicesMethods {

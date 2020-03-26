@@ -1,5 +1,6 @@
 use tonic::{Request, Response, Status};
-use proto::{anime_service_server::AnimeService, AnimeReply, AnimeRequest};
+use super::proto::{anime_service_server::AnimeService};
+use super::proto;
 
 #[derive(Debug, Default)]
 pub struct Anime {}
@@ -8,12 +9,12 @@ pub struct Anime {}
 impl AnimeService for Anime {
   async fn anime(
     &self,
-    request: Request<AnimeRequest>, // Accept request of type AnimeRequest
-  ) -> Result<Response<AnimeReply>, Status> {
+    request: Request<proto::AnimeRequest>, // Accept request of type AnimeRequest
+  ) -> Result<Response<proto::AnimeReply>, Status> {
     // Return an instance of type HelloReply
     println!("Got a request: {:?}", request);
 
-    let reply = AnimeReply {
+    let reply = proto::AnimeReply {
       anime: Some(
         proto::Anime {
           id: 1996,
@@ -26,8 +27,4 @@ impl AnimeService for Anime {
 
     Ok(Response::new(reply)) // Send back our formatted greeting
   }
-}
-
-pub mod proto {
-  tonic::include_proto!("proto");
 }
