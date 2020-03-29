@@ -1,5 +1,5 @@
 [package]
-name = "hello-world"
+name = "cactus-core"
 version = "1.0.0"
 
 [[bin]]
