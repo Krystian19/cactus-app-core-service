@@ -4,7 +4,8 @@ use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use std::env;
 
-pub fn init_db() -> PgConnection {
+/// Stablishes a new connection to the database.
+pub fn db_connection() -> PgConnection {
   let db_host: String = env::var("DB_HOST").expect("DB_HOST env var is not set");
   let db_username: String = env::var("DB_USERNAME").expect("DB_USERNAME env var is not set");
   let db_name: String = env::var("DB_NAME").expect("DB_NAME env var is not set");
@@ -18,5 +19,5 @@ pub fn init_db() -> PgConnection {
     DB_PASSWORD=db_password,
   );
 
-  PgConnection::establish(&database_url).expect(&format!("DB connection failed URL: {}", database_url))
+  PgConnection::establish(&database_url).expect(&format!("DB connection failed == ({})", database_url))
 }
