@@ -8,6 +8,7 @@ RUN apt-get update
 RUN apt-get install -y git autoconf automake libtool curl make g++ unzip protobuf-compiler
 RUN cargo install --version 1.12.0 watchexec
 
+# TODO: Check if we can get rid off this weird dependency installation
 # Install weird dependencies for image
 RUN rustup component add rustfmt --toolchain 1.41.0-x86_64-unknown-linux-gnu
 
