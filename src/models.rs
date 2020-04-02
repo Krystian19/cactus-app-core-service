@@ -1,11 +1,21 @@
 extern crate diesel;
 
 use diesel::pg::PgConnection;
-use diesel::prelude::*;
+// use diesel::prelude::*;
+use diesel::r2d2::{ConnectionManager, Pool, PoolError, PooledConnection};
 use std::env;
 
+pub type PgPool = Pool<ConnectionManager<PgConnection>>;
+pub type PgPooledConnection = PooledConnection<ConnectionManager<PgConnection>>;
+
+#[allow(dead_code)]
+fn init_pool(database_url: &str) -> Result<PgPool, PoolError> {
+  let manager = ConnectionManager::<PgConnection>::new(database_url);
+  Pool::builder().build(manager)
+}
+
 /// Stablishes a new connection to the database.
-pub fn db_connection() -> PgConnection {
+pub fn db_connection() -> PgPool {
   let db_host: String = env::var("DB_HOST").expect("DB_HOST env var is not set");
   let db_username: String = env::var("DB_USERNAME").expect("DB_USERNAME env var is not set");
   let db_name: String = env::var("DB_NAME").expect("DB_NAME env var is not set");
@@ -19,5 +29,7 @@ pub fn db_connection() -> PgConnection {
     DB_PASSWORD=db_password,
   );
 
-  PgConnection::establish(&database_url).expect(&format!("DB connection failed == ({})", database_url))
+  init_pool(&database_url).expect(&format!("DB connection failed == ({})", database_url))
+  // PgConnection::establish(&database_url)
+  //   .expect(&format!("DB connection failed == ({})", database_url))
 }

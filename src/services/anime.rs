@@ -3,8 +3,9 @@ use super::proto::{anime_service_server::AnimeService};
 use super::proto;
 use crate::models;
 
-#[derive(Debug, Default)]
-pub struct Anime;
+pub struct Anime {
+  pub db: models::PgPool,
+}
 
 #[tonic::async_trait]
 impl AnimeService for Anime {
@@ -14,7 +15,10 @@ impl AnimeService for Anime {
   ) -> Result<Response<proto::AnimeReply>, Status> {
     // Return an instance of type HelloReply
     println!("Got a request: {:?}", request);
-    let _connection = models::db_connection();
+    // println!("Tu nombre es {:?}", self.nombre);
+    // let _connection = models::db_connection();
+    // let _connection = self::db;
+    let _connection = &self.db;
 
     let reply = proto::AnimeReply {
       anime: Some(
