@@ -5,7 +5,10 @@ import (
 	"os"
 )
 
-const defaultPort = "9040"
+const (
+	// Default port for the GRPC Server
+	defaultPort = "9040"
+)
 
 func main() {
 	PORT := os.Getenv("PORT")
