@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -29,7 +30,7 @@ func InitDB() *gorm.DB {
 	db, err := gorm.Open("postgres", connectionString)
 
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Turn on the logMode to debug db queries
