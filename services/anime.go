@@ -11,9 +11,9 @@ import (
 )
 
 // Anime : Get a single Anime based on the provided params
-func (s *Server) Anime(ctx context.Context, request *proto.AnimeRequest) (*proto.AnimeResponse, error) {
+func (s *Services) Anime(ctx context.Context, request *proto.AnimeRequest) (*proto.AnimeResponse, error) {
 	var result models.Anime
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)

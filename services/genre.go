@@ -10,9 +10,9 @@ import (
 )
 
 // Genre : Get a single Genre based on the provided params
-func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto.GenreResponse, error) {
+func (s *Services) Genre(ctx context.Context, request *proto.GenreRequest) (*proto.GenreResponse, error) {
 	var result models.Genre
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -33,10 +33,10 @@ func (s *Server) Genre(ctx context.Context, request *proto.GenreRequest) (*proto
 }
 
 // Genres : Get a list of Genres based on the provided params
-func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*proto.GenresResponse, error) {
+func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*proto.GenresResponse, error) {
 	var result []models.Genre
 	var resultCount uint
-	query := s.db
+	query := s.DB
 
 	if request != nil && request.Query != nil {
 		if request.Query.Title != "" {
@@ -79,9 +79,9 @@ func (s *Server) Genres(ctx context.Context, request *proto.GenresRequest) (*pro
 }
 
 // ReleaseGenres : Get a list of Genres associated with the specified ReleaseId
-func (s *Server) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenresRequest) (*proto.GenresListResponse, error) {
+func (s *Services) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenresRequest) (*proto.GenresListResponse, error) {
 	var result []models.Genre
-	query := s.db
+	query := s.DB
 
 	// INNER JOIN public."ReleaseGenres" ON "Genres" .id = public."ReleaseGenres".genre_id WHERE (release_id = 1)
 	query = query.Joins(

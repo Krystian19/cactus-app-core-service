@@ -10,9 +10,9 @@ import (
 )
 
 // Release : Get a single Release based on the provided params
-func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*proto.ReleaseResponse, error) {
+func (s *Services) Release(ctx context.Context, request *proto.ReleaseRequest) (*proto.ReleaseResponse, error) {
 	var result models.Release
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -33,10 +33,10 @@ func (s *Server) Release(ctx context.Context, request *proto.ReleaseRequest) (*p
 }
 
 // Releases : Get a list of Releases based on the provided params
-func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
+func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
 	var result []models.Release
 	var resultCount uint
-	query := s.db
+	query := s.DB
 
 	if request != nil && request.Query != nil {
 		if request.Query.AnimeId != 0 {
@@ -106,8 +106,8 @@ func (s *Server) Releases(ctx context.Context, request *proto.ReleasesRequest) (
 }
 
 // AiringReleases : Get a list of AiringReleases based on the provided params
-func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
-	query := s.db
+func (s *Services) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
+	query := s.DB
 
 	var result []models.Release
 
@@ -127,9 +127,9 @@ func (s *Server) AiringReleases(ctx context.Context, request *proto.Empty) (*pro
 }
 
 // RandomRelease : Get a single Random Release
-func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
+func (s *Services) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
 	var result models.Release
-	query := s.db
+	query := s.DB
 
 	if err := query.Order(gorm.Expr("random()")).First(&result).Error; err != nil {
 
@@ -146,9 +146,9 @@ func (s *Server) RandomRelease(ctx context.Context, request *proto.Empty) (*prot
 }
 
 // ReleaseType : Get a single ReleaseType based on the provided params
-func (s *Server) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRequest) (*proto.ReleaseTypeResponse, error) {
+func (s *Services) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRequest) (*proto.ReleaseTypeResponse, error) {
 	var result models.ReleaseType
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -169,9 +169,9 @@ func (s *Server) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRequ
 }
 
 // ReleaseDescriptions : Get a list of ReleaseDescriptions that belong to the provided release_id
-func (s *Server) ReleaseDescriptions(ctx context.Context, request *proto.ReleaseDescriptionsRequest) (*proto.ReleaseDescriptionsResponse, error) {
+func (s *Services) ReleaseDescriptions(ctx context.Context, request *proto.ReleaseDescriptionsRequest) (*proto.ReleaseDescriptionsResponse, error) {
 	var result []models.ReleaseDescription
-	query := s.db
+	query := s.DB
 
 	query = query.Where("release_id = ?", request.ReleaseId)
 

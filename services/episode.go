@@ -11,9 +11,9 @@ import (
 )
 
 // Episode : Get a single Episode based on the provided params
-func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*proto.EpisodeResponse, error) {
+func (s *Services) Episode(ctx context.Context, request *proto.EpisodeRequest) (*proto.EpisodeResponse, error) {
 	var result models.Episode
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)
@@ -71,10 +71,10 @@ func (s *Server) Episode(ctx context.Context, request *proto.EpisodeRequest) (*p
 }
 
 // Episodes : Get a list of Episodes based on the provided params
-func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
+func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
 	var result []models.Episode
 	var resultCount uint
-	query := s.db
+	query := s.DB
 
 	if request != nil && request.Query != nil {
 		if request.Query.ReleaseId != 0 {
@@ -130,7 +130,7 @@ func (s *Server) Episodes(ctx context.Context, request *proto.EpisodesRequest) (
 }
 
 // HottestEpisodes : Get a list of HottestEpisodes based on the provided params
-func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationRequest) (*proto.EpisodesResponse, error) {
+func (s *Services) HottestEpisodes(ctx context.Context, request *proto.PaginationRequest) (*proto.EpisodesResponse, error) {
 	finalRes := []*proto.Episode{}
 	var resultCount uint
 
@@ -148,7 +148,7 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 		models.EpisodeSeen.TableName(models.EpisodeSeen{}),
 	)
 
-	query := s.db.Raw(queryString)
+	query := s.DB.Raw(queryString)
 
 	if request != nil {
 		if request.Limit != 0 {
@@ -170,7 +170,7 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 
 	for rows.Next() {
 		var episode = models.Episode{}
-		s.db.ScanRows(rows, &episode)
+		s.DB.ScanRows(rows, &episode)
 		finalRes = append(finalRes, episode.Episode)
 	}
 
@@ -178,7 +178,7 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 	query = query.Limit(nil)
 	query = query.Offset(nil)
 
-	row := s.db.Raw(
+	row := s.DB.Raw(
 		fmt.Sprintf("SELECT COUNT(ES.id) FROM (%s) as ES", queryString),
 	).Row() // (*sql.Row)
 
@@ -193,8 +193,8 @@ func (s *Server) HottestEpisodes(ctx context.Context, request *proto.PaginationR
 }
 
 // EpisodeCount : Get the Episode count of the specified Release
-func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRequest) (*proto.EpisodeCountResponse, error) {
-	db := s.db
+func (s *Services) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRequest) (*proto.EpisodeCountResponse, error) {
+	db := s.DB
 	var episodeCount uint
 
 	if err := db.Where("release_id = ?", request.ReleaseId).Model(&models.Episode{}).Count(&episodeCount).Error; err != nil {
@@ -205,9 +205,9 @@ func (s *Server) EpisodeCount(ctx context.Context, request *proto.EpisodeCountRe
 }
 
 // EpisodeSubtitles : Get a list of EpisodeSubtitles associated with the specified EpisodeId
-func (s *Server) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeSubtitlesRequest) (*proto.EpisodeSubtitlesListResponse, error) {
+func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeSubtitlesRequest) (*proto.EpisodeSubtitlesListResponse, error) {
 	var result []models.EpisodeSubtitle
-	query := s.db
+	query := s.DB
 
 	query = query.Where("episode_id = ?", request.EpisodeId)
 
@@ -226,9 +226,9 @@ func (s *Server) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeSub
 }
 
 // EpisodeSeen : Marks x episode as "seen", with a timestamp
-func (s *Server) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
+func (s *Services) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
 	// TODO : When users are implemented the EpisodeSeen record should include an user_id
-	if err := s.db.Create(&models.EpisodeSeenFields{EpisodeID: request.EpisodeId}).Error; err != nil {
+	if err := s.DB.Create(&models.EpisodeSeenFields{EpisodeID: request.EpisodeId}).Error; err != nil {
 		fmt.Println(err)
 		return nil, err
 	}

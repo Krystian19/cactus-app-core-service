@@ -11,9 +11,9 @@ import (
 )
 
 // Language : Get a single Language based on the provided params
-func (s *Server) Language(ctx context.Context, request *proto.LanguageRequest) (*proto.LanguageResponse, error) {
+func (s *Services) Language(ctx context.Context, request *proto.LanguageRequest) (*proto.LanguageResponse, error) {
 	var result models.Language
-	query := s.db
+	query := s.DB
 
 	if request.Id != 0 {
 		query = query.Where("id = ?", request.Id)

@@ -24,14 +24,15 @@ func Server(port string) error {
 	EnvVarsCheck()
 
 	srv := grpc.NewServer()
-	// Setup the GRPC Server struct (panics if no db connection is stablished)
-	registerServices(srv, services.NewServerConfig(models.InitDB()))
+	registerServices(srv, &services.Services{
+		DB: models.InitDB(),
+	})
 	reflection.Register(srv)
 
 	return srv.Serve(listener)
 }
 
-func registerServices(srv *grpc.Server, serverConfig *services.Server) {
+func registerServices(srv *grpc.Server, serverConfig *services.Services) {
 	proto.RegisterLanguageServiceServer(srv, serverConfig)
 	proto.RegisterGenreServiceServer(srv, serverConfig)
 	proto.RegisterAnimeServiceServer(srv, serverConfig)

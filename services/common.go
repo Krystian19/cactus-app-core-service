@@ -7,12 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Server : Contains all of the services methods
-type Server struct {
-	db *gorm.DB
-}
-
-// NewServerConfig : Returns a pointer to a new Server struct
-func NewServerConfig(db *gorm.DB) *Server {
-	return &Server{db: db}
+// Services : Contains all of the GRPC services methods
+type Services struct {
+	DB *gorm.DB
 }
