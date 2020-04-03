@@ -36,7 +36,7 @@ func (s *Services) Release(ctx context.Context, request *proto.ReleaseRequest) (
 // Releases : Get a list of Releases based on the provided params
 func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest) (*proto.ReleasesResponse, error) {
 	var result []models.Release
-	var resultCount uint
+	var resultCount int64
 	query := s.DB
 
 	if request != nil && request.Query != nil {
@@ -94,7 +94,8 @@ func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest)
 	query = query.Offset(nil)
 
 	if err := query.Model(&models.Release{}).Count(&resultCount).Error; err != nil {
-		resultCount = 0
+		log.Println(err)
+		return nil, err
 	}
 
 	finalRes := []*proto.Release{}
@@ -103,7 +104,7 @@ func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest)
 		finalRes = append(finalRes, result[i].Release)
 	}
 
-	return &proto.ReleasesResponse{Releases: finalRes, Count: uint64(resultCount)}, nil
+	return &proto.ReleasesResponse{Releases: finalRes, Count: resultCount}, nil
 }
 
 // AiringReleases : Get a list of AiringReleases based on the provided params

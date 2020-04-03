@@ -74,7 +74,7 @@ func (s *Services) Episode(ctx context.Context, request *proto.EpisodeRequest) (
 // Episodes : Get a list of Episodes based on the provided params
 func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest) (*proto.EpisodesResponse, error) {
 	var result []models.Episode
-	var resultCount uint
+	var resultCount int64
 	query := s.DB
 
 	if request != nil && request.Query != nil {
@@ -118,7 +118,8 @@ func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest)
 	query = query.Offset(nil)
 
 	if err := query.Model(&models.Episode{}).Count(&resultCount).Error; err != nil {
-		resultCount = 0
+		log.Println(err)
+		return nil, err
 	}
 
 	finalRes := []*proto.Episode{}
@@ -127,13 +128,13 @@ func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest)
 		finalRes = append(finalRes, result[i].Episode)
 	}
 
-	return &proto.EpisodesResponse{Episodes: finalRes, Count: uint64(resultCount)}, nil
+	return &proto.EpisodesResponse{Episodes: finalRes, Count: resultCount}, nil
 }
 
 // HottestEpisodes : Get a list of HottestEpisodes based on the provided params
 func (s *Services) HottestEpisodes(ctx context.Context, request *proto.PaginationRequest) (*proto.EpisodesResponse, error) {
 	finalRes := []*proto.Episode{}
-	var resultCount uint
+	var resultCount int64
 
 	// SELECT E.*, count(ES.id) as seen_count FROM public."Episodes" E
 	// 		LEFT JOIN public."EpisodesSeen" ES on ES.episode_id = E.id
@@ -190,7 +191,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 
 	row.Scan(&resultCount)
 
-	return &proto.EpisodesResponse{Episodes: finalRes, Count: uint64(resultCount)}, nil
+	return &proto.EpisodesResponse{Episodes: finalRes, Count: resultCount}, nil
 }
 
 // EpisodeCount : Get the Episode count of the specified Release
@@ -199,7 +200,8 @@ func (s *Services) EpisodeCount(ctx context.Context, request *proto.EpisodeCount
 	var episodeCount uint
 
 	if err := db.Where("release_id = ?", request.ReleaseId).Model(&models.Episode{}).Count(&episodeCount).Error; err != nil {
-		episodeCount = 0
+		log.Println(err)
+		return nil, err
 	}
 
 	return &proto.EpisodeCountResponse{Count: int64(episodeCount)}, nil

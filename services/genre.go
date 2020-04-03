@@ -36,7 +36,7 @@ func (s *Services) Genre(ctx context.Context, request *proto.GenreRequest) (*pro
 // Genres : Get a list of Genres based on the provided params
 func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*proto.GenresResponse, error) {
 	var result []models.Genre
-	var resultCount uint
+	var resultCount int64
 	query := s.DB
 
 	if request != nil && request.Query != nil {
@@ -67,7 +67,8 @@ func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*p
 	query = query.Offset(nil)
 
 	if err := query.Model(&models.Genre{}).Count(&resultCount).Error; err != nil {
-		resultCount = 0
+		log.Println(err)
+		return nil, err
 	}
 
 	finalRes := []*proto.Genre{}
@@ -76,7 +77,7 @@ func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*p
 		finalRes = append(finalRes, result[i].Genre)
 	}
 
-	return &proto.GenresResponse{Genres: finalRes, Count: uint64(resultCount)}, nil
+	return &proto.GenresResponse{Genres: finalRes, Count: resultCount}, nil
 }
 
 // ReleaseGenres : Get a list of Genres associated with the specified ReleaseId

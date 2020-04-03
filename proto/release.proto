@@ -46,7 +46,7 @@ message ReleaseResponse {
 
 message ReleasesResponse { 
 	repeated Release releases = 1;
-	uint64 count = 2;
+	int64 count = 2;
 }
 
 message ReleasesListResponse { 
