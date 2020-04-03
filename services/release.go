@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
@@ -25,7 +26,7 @@ func (s *Services) Release(ctx context.Context, request *proto.ReleaseRequest) (
 			return &proto.ReleaseResponse{Release: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -84,7 +85,7 @@ func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest)
 	}
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -113,7 +114,7 @@ func (s *Services) AiringReleases(ctx context.Context, request *proto.Empty) (*p
 
 	query = query.Where("started_airing IS NOT NULL AND stopped_airing IS NULL").Where("release_type_id = ?", 1).Or("release_type_id = ?", 4)
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -138,7 +139,7 @@ func (s *Services) RandomRelease(ctx context.Context, request *proto.Empty) (*pr
 			return &proto.ReleaseResponse{Release: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -161,7 +162,7 @@ func (s *Services) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRe
 			return &proto.ReleaseTypeResponse{ReleaseType: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -176,7 +177,7 @@ func (s *Services) ReleaseDescriptions(ctx context.Context, request *proto.Relea
 	query = query.Where("release_id = ?", request.ReleaseId)
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 

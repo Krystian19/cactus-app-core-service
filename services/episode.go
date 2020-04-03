@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/Krystian19/cactus-core/models"
@@ -63,7 +64,7 @@ func (s *Services) Episode(ctx context.Context, request *proto.EpisodeRequest) (
 			return &proto.EpisodeResponse{Episode: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -108,7 +109,7 @@ func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest)
 	}
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -164,7 +165,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 	defer rows.Close()
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -183,7 +184,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 	).Row() // (*sql.Row)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -212,7 +213,7 @@ func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeS
 	query = query.Where("episode_id = ?", request.EpisodeId)
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -229,7 +230,7 @@ func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeS
 func (s *Services) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
 	// TODO : When users are implemented the EpisodeSeen record should include an user_id
 	if err := s.DB.Create(&models.EpisodeSeenFields{EpisodeID: request.EpisodeId}).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 

@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 
@@ -26,7 +26,7 @@ func (s *Services) Language(ctx context.Context, request *proto.LanguageRequest)
 			return &proto.LanguageResponse{Language: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 

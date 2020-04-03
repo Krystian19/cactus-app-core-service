@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 
@@ -26,7 +26,7 @@ func (s *Services) Anime(ctx context.Context, request *proto.AnimeRequest) (*pro
 			return &proto.AnimeResponse{Anime: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 

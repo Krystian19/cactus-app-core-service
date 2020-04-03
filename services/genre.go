@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
@@ -25,7 +26,7 @@ func (s *Services) Genre(ctx context.Context, request *proto.GenreRequest) (*pro
 			return &proto.GenreResponse{Genre: nil}, nil
 		}
 
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -57,7 +58,7 @@ func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*p
 	}
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
@@ -94,7 +95,7 @@ func (s *Services) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenr
 	query = query.Where("release_id = ?", request.ReleaseId)
 
 	if err := query.Find(&result).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil, err
 	}
 
