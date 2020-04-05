@@ -108,16 +108,7 @@ func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest)
 		}
 	}
 
-	if err := query.Find(&result).Error; err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	// Remove pagination constraints before counting
-	query = query.Limit(nil)
-	query = query.Offset(nil)
-
-	if err := query.Model(&models.Episode{}).Count(&resultCount).Error; err != nil {
+	if err := query.Find(&result).Limit(nil).Offset(nil).Count(&resultCount).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}
@@ -180,7 +171,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 	query = query.Limit(nil)
 	query = query.Offset(nil)
 
-	row := s.DB.Raw(
+	count := s.DB.Raw(
 		fmt.Sprintf("SELECT COUNT(ES.id) FROM (%s) as ES", queryString),
 	).Row() // (*sql.Row)
 
@@ -189,7 +180,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 		return nil, err
 	}
 
-	row.Scan(&resultCount)
+	count.Scan(&resultCount)
 
 	return &proto.EpisodesResponse{Episodes: finalRes, Count: resultCount}, nil
 }

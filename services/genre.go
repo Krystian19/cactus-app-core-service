@@ -57,16 +57,7 @@ func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*p
 		}
 	}
 
-	if err := query.Find(&result).Error; err != nil {
-		log.Println(err)
-		return nil, err
-	}
-
-	// Remove pagination constraints before counting
-	query = query.Limit(nil)
-	query = query.Offset(nil)
-
-	if err := query.Model(&models.Genre{}).Count(&resultCount).Error; err != nil {
+	if err := query.Find(&result).Limit(nil).Offset(nil).Count(&resultCount).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}
