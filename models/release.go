@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/Krystian19/cactus-core/proto"
 )
 
@@ -13,8 +15,8 @@ type Release struct {
 	ReleaseOrder  int64
 	StartedAiring string
 	StoppedAiring string
-	CreatedAt     string
-	UpdatedAt     string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 
 	// Relations
 	AnimeID       int64
@@ -31,8 +33,8 @@ func (r *Release) ToProto() *proto.Release {
 		ReleaseOrder:  r.ReleaseOrder,
 		StartedAiring: r.StartedAiring,
 		StoppedAiring: r.StoppedAiring,
-		CreatedAt:     r.CreatedAt,
-		UpdatedAt:     r.UpdatedAt,
+		CreatedAt:     r.CreatedAt.String(),
+		UpdatedAt:     r.UpdatedAt.String(),
 	}
 }
 

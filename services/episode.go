@@ -68,7 +68,7 @@ func (s *Services) Episode(ctx context.Context, request *proto.EpisodeRequest) (
 		return nil, err
 	}
 
-	return &proto.EpisodeResponse{Episode: result.Episode}, nil
+	return &proto.EpisodeResponse{Episode: result.ToProto()}, nil
 }
 
 // Episodes : Get a list of Episodes based on the provided params
@@ -116,7 +116,7 @@ func (s *Services) Episodes(ctx context.Context, request *proto.EpisodesRequest)
 	finalRes := []*proto.Episode{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].Episode)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.EpisodesResponse{Episodes: finalRes, Count: resultCount}, nil
@@ -164,7 +164,7 @@ func (s *Services) HottestEpisodes(ctx context.Context, request *proto.Paginatio
 	for rows.Next() {
 		var episode = models.Episode{}
 		s.DB.ScanRows(rows, &episode)
-		finalRes = append(finalRes, episode.Episode)
+		finalRes = append(finalRes, episode.ToProto())
 	}
 
 	// Remove pagination constraints before counting
@@ -213,7 +213,7 @@ func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeS
 	finalRes := []*proto.EpisodeSubtitle{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].EpisodeSubtitle)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.EpisodeSubtitlesListResponse{EpisodeSubtitles: []*proto.EpisodeSubtitle{}}, nil

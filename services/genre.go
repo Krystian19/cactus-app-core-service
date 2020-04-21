@@ -30,7 +30,7 @@ func (s *Services) Genre(ctx context.Context, request *proto.GenreRequest) (*pro
 		return nil, err
 	}
 
-	return &proto.GenreResponse{Genre: result.Genre}, nil
+	return &proto.GenreResponse{Genre: result.ToProto()}, nil
 }
 
 // Genres : Get a list of Genres based on the provided params
@@ -65,7 +65,7 @@ func (s *Services) Genres(ctx context.Context, request *proto.GenresRequest) (*p
 	finalRes := []*proto.Genre{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].Genre)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.GenresResponse{Genres: finalRes, Count: resultCount}, nil
@@ -94,7 +94,7 @@ func (s *Services) ReleaseGenres(ctx context.Context, request *proto.ReleaseGenr
 	finalRes := []*proto.Genre{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].Genre)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.GenresListResponse{Genres: finalRes}, nil

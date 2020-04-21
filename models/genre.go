@@ -6,7 +6,18 @@ import (
 
 // Genre : Genre model
 type Genre struct {
-	*proto.Genre
+	ID        int64
+	Title     string
+	Thumbnail string
+}
+
+// ToProto : Translates Genre struct into a proto Genre struct
+func (a *Genre) ToProto() *proto.Genre {
+	return &proto.Genre{
+		Id:        a.ID,
+		Title:     a.Title,
+		Thumbnail: a.Thumbnail,
+	}
 }
 
 // TableName : Sets the model's tablename

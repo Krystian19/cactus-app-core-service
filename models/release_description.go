@@ -6,7 +6,24 @@ import (
 
 // ReleaseDescription : ReleaseDescription model
 type ReleaseDescription struct {
-	*proto.ReleaseDescription
+	ID          int64
+	Description string
+
+	// Relations
+	ReleaseID  int64
+	LanguageID int64
+}
+
+// ToProto : Translates ReleaseDescription struct into a proto ReleaseDescription struct
+func (l *ReleaseDescription) ToProto() *proto.ReleaseDescription {
+	return &proto.ReleaseDescription{
+		Id:          l.ID,
+		Description: l.Description,
+
+		// Relations
+		ReleaseId:  l.ReleaseID,
+		LanguageId: l.LanguageID,
+	}
 }
 
 // TableName : Sets the model's tablename

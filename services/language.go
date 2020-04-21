@@ -30,5 +30,5 @@ func (s *Services) Language(ctx context.Context, request *proto.LanguageRequest)
 		return nil, err
 	}
 
-	return &proto.LanguageResponse{Language: result.Language}, nil
+	return &proto.LanguageResponse{Language: result.ToProto()}, nil
 }

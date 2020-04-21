@@ -176,7 +176,7 @@ func (s *Services) ReleaseDescriptions(ctx context.Context, request *proto.Relea
 	finalRes := []*proto.ReleaseDescription{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].ReleaseDescription)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.ReleaseDescriptionsResponse{ReleaseDescriptions: finalRes}, nil

@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/Krystian19/cactus-core/proto"
 )
 
@@ -8,8 +10,8 @@ import (
 type Anime struct {
 	ID        int64
 	Title     string
-	CreatedAt string
-	UpdatedAt string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // ToProto : Translates Anime struct into a proto Anime struct
@@ -17,8 +19,8 @@ func (a *Anime) ToProto() *proto.Anime {
 	return &proto.Anime{
 		Id:        a.ID,
 		Title:     a.Title,
-		CreatedAt: a.CreatedAt,
-		UpdatedAt: a.UpdatedAt,
+		CreatedAt: a.CreatedAt.String(),
+		UpdatedAt: a.UpdatedAt.String(),
 	}
 }
 
