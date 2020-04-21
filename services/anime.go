@@ -30,5 +30,5 @@ func (s *Services) Anime(ctx context.Context, request *proto.AnimeRequest) (*pro
 		return nil, err
 	}
 
-	return &proto.AnimeResponse{Anime: result.Anime}, nil
+	return &proto.AnimeResponse{Anime: result.ToProto()}, nil
 }

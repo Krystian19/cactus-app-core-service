@@ -10,11 +10,6 @@ const tableName = "EpisodesSeen"
 
 // EpisodeSeen : EpisodeSeen model
 type EpisodeSeen struct {
-	*proto.EpisodeSeen
-}
-
-// EpisodeSeenFields : Use it to create EpisodeSeen record
-type EpisodeSeenFields struct {
 	ID        int64
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -23,12 +18,19 @@ type EpisodeSeenFields struct {
 	EpisodeID int64
 }
 
-// TableName : Sets the model's tablename
-func (EpisodeSeen) TableName() string {
-	return tableName
+// ToProto : Translates EpisodeSeen struct into a proto EpisodeSeen struct
+func (e *EpisodeSeen) ToProto() *proto.EpisodeSeen {
+	return &proto.EpisodeSeen{
+		Id:        e.ID,
+		CreatedAt: e.CreatedAt.String(),
+		UpdatedAt: e.UpdatedAt.String(),
+
+		// Relations
+		EpisodeId: e.EpisodeID,
+	}
 }
 
 // TableName : Sets the model's tablename
-func (EpisodeSeenFields) TableName() string {
+func (EpisodeSeen) TableName() string {
 	return tableName
 }

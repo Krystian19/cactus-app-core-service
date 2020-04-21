@@ -30,7 +30,7 @@ func (s *Services) Release(ctx context.Context, request *proto.ReleaseRequest) (
 		return nil, err
 	}
 
-	return &proto.ReleaseResponse{Release: result.Release}, nil
+	return &proto.ReleaseResponse{Release: result.ToProto()}, nil
 }
 
 // Releases : Get a list of Releases based on the provided params
@@ -92,7 +92,7 @@ func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest)
 	finalRes := []*proto.Release{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].Release)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.ReleasesResponse{Releases: finalRes, Count: resultCount}, nil
@@ -113,7 +113,7 @@ func (s *Services) AiringReleases(ctx context.Context, request *proto.Empty) (*p
 	finalRes := []*proto.Release{}
 
 	for i := range result {
-		finalRes = append(finalRes, result[i].Release)
+		finalRes = append(finalRes, result[i].ToProto())
 	}
 
 	return &proto.ReleasesListResponse{Releases: finalRes}, nil
@@ -135,7 +135,7 @@ func (s *Services) RandomRelease(ctx context.Context, request *proto.Empty) (*pr
 		return nil, err
 	}
 
-	return &proto.ReleaseResponse{Release: result.Release}, nil
+	return &proto.ReleaseResponse{Release: result.ToProto()}, nil
 }
 
 // ReleaseType : Get a single ReleaseType based on the provided params
@@ -158,7 +158,7 @@ func (s *Services) ReleaseType(ctx context.Context, request *proto.ReleaseTypeRe
 		return nil, err
 	}
 
-	return &proto.ReleaseTypeResponse{ReleaseType: result.ReleaseType}, nil
+	return &proto.ReleaseTypeResponse{ReleaseType: result.ToProto()}, nil
 }
 
 // ReleaseDescriptions : Get a list of ReleaseDescriptions that belong to the provided release_id

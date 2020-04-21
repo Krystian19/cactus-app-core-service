@@ -221,8 +221,8 @@ func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeS
 
 // EpisodeSeen : Marks x episode as "seen", with a timestamp
 func (s *Services) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
-	// TODO : When users are implemented the EpisodeSeen record should include an user_id
-	if err := s.DB.Create(&models.EpisodeSeenFields{EpisodeID: request.EpisodeId}).Error; err != nil {
+	// TODO : When users are implemented the EpisodeSeen record should include a user_id
+	if err := s.DB.Create(&models.EpisodeSeen{EpisodeID: request.EpisodeId}).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}
