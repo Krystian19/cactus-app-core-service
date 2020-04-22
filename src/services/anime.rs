@@ -1,10 +1,10 @@
 use tonic::{Request, Response, Status};
 use super::proto::{anime_service_server::AnimeService};
 use super::proto;
-use crate::models;
+use crate::db;
 
 pub struct Anime {
-  pub db: models::PgPool,
+  pub db: db::PgPool,
 }
 
 #[tonic::async_trait]
@@ -16,7 +16,7 @@ impl AnimeService for Anime {
     // Return an instance of type HelloReply
     println!("Got a request: {:?}", request);
     // println!("Tu nombre es {:?}", self.nombre);
-    // let _connection = models::db_connection();
+    // let _connection = db::db_connection();
     // let _connection = self::db;
     let _connection = &self.db;
 
