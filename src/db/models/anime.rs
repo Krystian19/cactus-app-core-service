@@ -1,4 +1,4 @@
-use super::services::proto;
+use super::{services::proto, Model};
 use std::string::String;
 
 pub struct Anime {
@@ -8,17 +8,13 @@ pub struct Anime {
   pub updated_at: std::string::String,
 }
 
-pub trait AnimeMethods {
-  fn to_proto(&self) -> proto::Anime;
-}
-
-impl AnimeMethods for Anime {
-  fn to_proto(&self) -> proto::Anime {
+impl Model<proto::Anime> for Anime {
+  fn to_proto(self) -> proto::Anime {
     proto::Anime {
       id: self.id,
-      title: String::from(&self.title),
-      created_at: String::from(&self.created_at),
-      updated_at: String::from(&self.updated_at),
+      title: String::from(self.title),
+      created_at: String::from(self.created_at),
+      updated_at: String::from(self.updated_at),
     }
   }
 }
