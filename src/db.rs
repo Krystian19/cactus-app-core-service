@@ -4,7 +4,9 @@ use diesel::pg::PgConnection;
 // use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool, PoolError, PooledConnection};
 use std::env;
+use super::services;
 
+pub mod models;
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 pub type PgPooledConnection = PooledConnection<ConnectionManager<PgConnection>>;
 

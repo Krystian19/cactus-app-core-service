@@ -1,7 +1,8 @@
-use tonic::{Request, Response, Status};
-use super::proto::{anime_service_server::AnimeService};
 use super::proto;
+use super::proto::anime_service_server::AnimeService;
 use crate::db;
+use crate::db::models;
+use tonic::{Request, Response, Status};
 
 pub struct Anime {
   pub db: db::PgPool,
@@ -20,17 +21,17 @@ impl AnimeService for Anime {
     // let _connection = self::db;
     let _connection = &self.db;
 
-    let reply = proto::AnimeReply {
-      anime: Some(
-        proto::Anime {
-          id: 1996,
-          title: String::from("adios"),
-          created_at: String::from("adios"),
-          updated_at: String::from("adios"),
-        }
-      )
+    let result = models::anime::Anime {
+      id: 14,
+      title: String::from("Adios"),
+      created_at: String::from("Adios"),
+      updated_at: String::from("Adios"),
     };
 
-    Ok(Response::new(reply)) // Send back our formatted greeting
+    let reply = proto::AnimeReply {
+      anime: Some(models::anime::AnimeMethods::to_proto(&result)),
+    };
+
+    Ok(Response::new(reply))
   }
 }
