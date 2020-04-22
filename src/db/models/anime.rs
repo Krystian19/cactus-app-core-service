@@ -22,5 +22,3 @@ impl AnimeMethods for Anime {
     }
   }
 }
-
-// proto::Anime

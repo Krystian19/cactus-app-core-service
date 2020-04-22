@@ -1,11 +1,10 @@
 use super::proto;
 use super::proto::anime_service_server::AnimeService;
-use crate::db;
-use crate::db::models;
+use crate::db::{models::anime, models::anime::AnimeMethods, PgPool};
 use tonic::{Request, Response, Status};
 
 pub struct Anime {
-  pub db: db::PgPool,
+  pub db: PgPool,
 }
 
 #[tonic::async_trait]
@@ -21,7 +20,7 @@ impl AnimeService for Anime {
     // let _connection = self::db;
     let _connection = &self.db;
 
-    let result = models::anime::Anime {
+    let result = &anime::Anime {
       id: 14,
       title: String::from("Adios"),
       created_at: String::from("Adios"),
@@ -29,7 +28,7 @@ impl AnimeService for Anime {
     };
 
     let reply = proto::AnimeReply {
-      anime: Some(models::anime::AnimeMethods::to_proto(&result)),
+      anime: Some(result.to_proto()),
     };
 
     Ok(Response::new(reply))
