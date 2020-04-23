@@ -10,7 +10,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     PORT.to_string()
   );
   services::ServicesMethods::build_server(
-    &services::Services,
+    &services::Services::default(),
     SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), PORT),
   )
   .await?;

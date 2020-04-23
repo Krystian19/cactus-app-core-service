@@ -8,6 +8,7 @@ use anime::Anime;
 use proto::anime_service_server::AnimeServiceServer;
 mod anime;
 
+#[derive(Default)]
 pub struct Services;
 
 pub struct Service {
