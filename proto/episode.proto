@@ -1,8 +1,8 @@
 syntax = "proto3";
-
 package proto;
 
 import "proto/common.proto";
+import "google/protobuf/empty.proto";
 
 message Episode {
 	int64 id = 1;
@@ -94,5 +94,5 @@ service EpisodeService {
 	rpc HottestEpisodes(PaginationRequest) returns (EpisodesResponse);
 	rpc EpisodeCount(EpisodeCountRequest) returns (EpisodeCountResponse);
 	rpc EpisodeSubtitles(EpisodeSubtitlesRequest) returns (EpisodeSubtitlesListResponse);
-	rpc EpisodeSeen(EpisodeSeenRequest) returns (Empty);
+	rpc EpisodeSeen(EpisodeSeenRequest) returns (google.protobuf.Empty);
 }

@@ -6,7 +6,7 @@ WORKDIR /go/src/app
 COPY . .
 EXPOSE 9040
 
-RUN apk add make git gcc libc-dev protobuf
+RUN apk add make git gcc libc-dev protobuf-dev
 
 RUN go get github.com/unknwon/bra
 RUN go get github.com/golang/protobuf/protoc-gen-go@v1.3.3

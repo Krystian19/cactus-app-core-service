@@ -1,8 +1,5 @@
 syntax = "proto3";
-
 package proto;
-
-message Empty {}
 
 // OrderBy field name
 message OrderBy {

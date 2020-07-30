@@ -7,6 +7,7 @@ import (
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jinzhu/gorm"
 )
 
@@ -99,7 +100,7 @@ func (s *Services) Releases(ctx context.Context, request *proto.ReleasesRequest)
 }
 
 // AiringReleases : Get a list of AiringReleases based on the provided params
-func (s *Services) AiringReleases(ctx context.Context, request *proto.Empty) (*proto.ReleasesListResponse, error) {
+func (s *Services) AiringReleases(ctx context.Context, request *empty.Empty) (*proto.ReleasesListResponse, error) {
 	query := s.DB
 
 	var result []models.Release
@@ -120,7 +121,7 @@ func (s *Services) AiringReleases(ctx context.Context, request *proto.Empty) (*p
 }
 
 // RandomRelease : Get a single Random Release
-func (s *Services) RandomRelease(ctx context.Context, request *proto.Empty) (*proto.ReleaseResponse, error) {
+func (s *Services) RandomRelease(ctx context.Context, request *empty.Empty) (*proto.ReleaseResponse, error) {
 	var result models.Release
 	query := s.DB
 

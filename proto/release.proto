@@ -1,8 +1,7 @@
 syntax = "proto3";
-
 package proto;
 
-import "proto/common.proto";
+import "google/protobuf/empty.proto";
 
 message Release {
 	int64 id = 1;
@@ -86,8 +85,8 @@ message ReleaseDescriptionsResponse {
 service ReleaseService {
 	rpc Release(ReleaseRequest) returns (ReleaseResponse);
 	rpc Releases(ReleasesRequest) returns (ReleasesResponse);
-	rpc AiringReleases(Empty) returns (ReleasesListResponse);
-	rpc RandomRelease(Empty) returns (ReleaseResponse);
+	rpc AiringReleases(google.protobuf.Empty) returns (ReleasesListResponse);
+	rpc RandomRelease(google.protobuf.Empty) returns (ReleaseResponse);
 	rpc ReleaseType(ReleaseTypeRequest) returns (ReleaseTypeResponse);
 	rpc ReleaseDescriptions(ReleaseDescriptionsRequest) returns (ReleaseDescriptionsResponse);
 }

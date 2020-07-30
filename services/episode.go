@@ -8,6 +8,7 @@ import (
 
 	"github.com/Krystian19/cactus-core/models"
 	"github.com/Krystian19/cactus-core/proto"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jinzhu/gorm"
 )
 
@@ -220,12 +221,12 @@ func (s *Services) EpisodeSubtitles(ctx context.Context, request *proto.EpisodeS
 }
 
 // EpisodeSeen : Marks x episode as "seen", with a timestamp
-func (s *Services) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*proto.Empty, error) {
+func (s *Services) EpisodeSeen(ctx context.Context, request *proto.EpisodeSeenRequest) (*empty.Empty, error) {
 	// TODO : When users are implemented the EpisodeSeen record should include a user_id
 	if err := s.DB.Create(&models.EpisodeSeen{EpisodeID: request.EpisodeId}).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	return &proto.Empty{}, nil
+	return &empty.Empty{}, nil
 }
