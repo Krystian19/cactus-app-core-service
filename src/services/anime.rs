@@ -19,6 +19,7 @@ impl AnimeService for Anime {
     let _pool = &self.pool;
 
     // https://github.com/diesel-rs/diesel/issues/2232#issuecomment-580744580
+    // https://github.com/sfackler/r2d2-postgres
     // pool.get().
     // diesel::
 
