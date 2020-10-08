@@ -16,8 +16,8 @@ fn init_pool(database_url: &str) -> Result<PgPool, PoolError> {
   Pool::builder().build(manager)
 }
 
-/// Stablishes a new connection to the database.
-pub fn db_connection() -> PgPool {
+/// Get a pool of connections to the database
+pub fn pool() -> PgPool {
   let db_host: String = env::var("DB_HOST").expect("DB_HOST env var is not set");
   let db_username: String = env::var("DB_USERNAME").expect("DB_USERNAME env var is not set");
   let db_name: String = env::var("DB_NAME").expect("DB_NAME env var is not set");

@@ -1,11 +1,12 @@
 use super::db::{models::anime, models::Model};
 use super::proto;
 use super::proto::anime_service_server::AnimeService;
-use super::Service;
+use super::db::PgPool;
 use tonic::{Request, Response, Status};
+extern crate diesel;
 
 pub struct Anime {
-  pub service: Service,
+  pub pool: PgPool,
 }
 
 #[tonic::async_trait]
@@ -15,7 +16,12 @@ impl AnimeService for Anime {
     request: Request<proto::AnimeRequest>, // Accepts requests of type AnimeRequest
   ) -> Result<Response<proto::AnimeReply>, Status> {
     println!("Got a request: {:?}", request);
-    let _connection = &self.service.db;
+    let _pool = &self.pool;
+
+    // https://github.com/diesel-rs/diesel/issues/2232#issuecomment-580744580
+    // pool.get().
+    // diesel::
+
 
     let result = anime::Anime {
       id: 14,

@@ -1,5 +1,4 @@
 use super::db;
-use super::db::PgPool;
 use async_trait::async_trait;
 use std::net::SocketAddr;
 use tonic::transport::Server;
@@ -10,10 +9,6 @@ mod anime;
 
 #[derive(Default)]
 pub struct Services;
-
-pub struct Service {
-  pub db: PgPool,
-}
 
 /// Generated code from the proto files.
 pub mod proto {
@@ -28,11 +23,9 @@ pub trait ServicesMethods {
 #[async_trait]
 impl ServicesMethods for Services {
   async fn build_server(&self, addr: SocketAddr) -> Result<(), Box<dyn std::error::Error>> {
-    let service = Service {
-      db: db::db_connection(),
-    };
+    let pool = db::pool();
     Server::builder()
-      .add_service(AnimeServiceServer::new(Anime { service }))
+      .add_service(AnimeServiceServer::new(Anime { pool: pool.clone() }))
       .serve(addr)
       .await?;
 
